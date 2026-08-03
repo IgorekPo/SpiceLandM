@@ -1,16 +1,20 @@
 import { gsap } from 'gsap';
+import heroFarUrl from '../assets/images/hero-layer-far.png?url';
+import heroMiddleUrl from '../assets/images/hero-layer-middle.png?url';
+import heroFrontUrl from '../assets/images/hero-layer-front.png?url';
+import logoUrl from '../assets/logos/logo.svg?url';
 
 const assetPaths = [
-  '../assets/images/hero-layer-far.png',
-  '../assets/images/hero-layer-middle.png',
-  '../assets/images/hero-layer-front.png',
-  '../assets/logos/logo.svg',
+  heroFarUrl,
+  heroMiddleUrl,
+  heroFrontUrl,
+  logoUrl,
 ];
 
 const preloadAssets = () => Promise.all(
   assetPaths.map((path) => {
     const image = new Image();
-    image.src = new URL(path, import.meta.url).href;
+    image.src = path;
     return image.decode?.().catch(() => undefined) ?? Promise.resolve();
   }),
 );

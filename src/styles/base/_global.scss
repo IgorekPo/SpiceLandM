@@ -3,17 +3,50 @@
 
 html,
 body {
+  width: 100%;
+  max-width: 100%;
   min-width: 320px;
   min-height: 100%;
+  overflow-x: hidden;
+}
+
+html {
+  scroll-snap-type: y mandatory;
+  overscroll-behavior-x: none;
+
+  &.section-scroll--animating {
+    scroll-behavior: auto;
+    scroll-snap-type: none;
+  }
 }
 
 body {
-  overflow-x: hidden;
   color: $color-white;
   background: #171415;
   font-family: $font-body;
   line-height: 1.5;
   -webkit-font-smoothing: antialiased;
+}
+
+main {
+  width: 100%;
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
+main > section {
+  min-height: 100vh;
+  min-height: 100svh;
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
+}
+
+@supports (overflow: clip) {
+  html,
+  body,
+  main {
+    overflow-x: clip;
+  }
 }
 
 body.page--locked,
@@ -178,6 +211,7 @@ button:not(:disabled),
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
+    scroll-snap-type: y proximity;
   }
 
   *,

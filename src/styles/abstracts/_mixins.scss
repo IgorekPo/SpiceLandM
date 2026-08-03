@@ -1,0 +1,20 @@
+@mixin from($width) {
+  @media (min-width: $width) {
+    @content;
+  }
+}
+
+@mixin focus-visible {
+  &:focus-visible {
+    outline: 2px solid #ff9100;
+    outline-offset: 4px;
+  }
+}
+
+@mixin glass($opacity: 0.24, $blur: 16px) {
+  background: rgba(64, 53, 54, $opacity);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  backdrop-filter: blur($blur);
+  -webkit-backdrop-filter: blur($blur);
+}
+

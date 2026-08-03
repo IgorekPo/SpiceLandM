@@ -1,0 +1,177 @@
+@use "../abstracts/variables" as *;
+@use "../abstracts/mixins" as *;
+
+html,
+body {
+  min-width: 320px;
+  min-height: 100%;
+}
+
+body {
+  overflow-x: hidden;
+  color: $color-white;
+  background: #171415;
+  font-family: $font-body;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+body.page--locked,
+body.page--loading {
+  overflow: hidden;
+}
+
+button,
+a {
+  -webkit-tap-highlight-color: transparent;
+}
+
+.container {
+  width: min(calc(100% - #{$content-edge * 2}), $container);
+  margin-inline: auto;
+}
+
+.skip-link {
+  position: fixed;
+  z-index: 500;
+  top: 12px;
+  left: 12px;
+  padding: 10px 16px;
+  color: $color-dark;
+  background: $color-white;
+  border-radius: 8px;
+  transform: translateY(-150%);
+
+  &:focus {
+    transform: translateY(0);
+  }
+}
+
+.brand-mark {
+  position: relative;
+  display: block;
+  overflow: hidden;
+  width: 48px;
+  aspect-ratio: 1;
+  flex: 0 0 auto;
+  border-radius: 50%;
+
+  &__image {
+    width: 343.333%;
+    max-width: none;
+    height: 100%;
+  }
+
+  @include focus-visible;
+}
+
+.glass-button {
+  @include glass(0.16, 12px);
+  @include focus-visible;
+
+  display: inline-flex;
+  min-height: 48px;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 11px 18px;
+  color: $color-white;
+  border-radius: 12px;
+  cursor: pointer;
+  font-size: 0.82rem;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  transition: color $transition-base, background-color $transition-base, border-color $transition-base;
+
+  &--compact {
+    min-height: 38px;
+    padding: 8px 11px;
+    border-radius: 9px;
+    font-size: 0.66rem;
+    white-space: nowrap;
+  }
+
+  &__icon {
+    flex: 0 0 auto;
+    fill: none;
+    stroke: currentcolor;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-width: 1.5;
+  }
+
+  @include from(480px) {
+    min-height: 50px;
+    padding-inline: 22px;
+
+    &--compact {
+      min-height: 40px;
+      padding-inline: 14px;
+      font-size: 0.72rem;
+    }
+  }
+
+  @include from(1024px) {
+    min-height: 52px;
+    padding-inline: 26px;
+    font-size: 0.88rem;
+
+    &--compact {
+      min-height: 40px;
+      padding-inline: 17px;
+      font-size: 0.75rem;
+    }
+  }
+}
+
+button:not(:disabled),
+.glass-button {
+  position: relative;
+  z-index: 0;
+  overflow: hidden;
+  isolation: isolate;
+  transition:
+    color $transition-hover,
+    background-color $transition-hover,
+    border-color $transition-hover,
+    box-shadow $transition-hover,
+    opacity $transition-hover;
+
+  &::before {
+    position: absolute;
+    z-index: -1;
+    inset: 0;
+    background: $color-orange;
+    content: "";
+    transform: scaleX(0);
+    transform-origin: 100% 50%;
+    transition: transform $transition-hover;
+  }
+}
+
+@media (hover: hover) and (pointer: fine) {
+  button:not(:disabled):hover,
+  a.glass-button:hover {
+    color: $color-dark;
+    border-color: $color-orange;
+
+    &::before {
+      transform: scaleX(1);
+      transform-origin: 0 50%;
+    }
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

@@ -1,0 +1,227 @@
+@use "../../styles/abstracts/variables" as *;
+@use "../../styles/abstracts/mixins" as *;
+
+.header {
+  @include glass(0.28, 16px);
+
+  position: fixed;
+  z-index: $z-header;
+  top: 0;
+  left: 0;
+  width: 100%;
+  opacity: 1;
+  border-top: 0;
+  border-right: 0;
+  border-bottom: 0;
+  border-left: 0;
+  backdrop-filter: blur(4px);
+  box-shadow: inset 0 -1px rgba($color-white, 0.16), 0 8px 28px rgba(0, 0, 0, 0.14);
+  transition: opacity $transition-base;
+  -webkit-backdrop-filter: blur(4px);
+
+  &__inner {
+    display: flex;
+    min-height: $header-height-mobile;
+    align-items: center;
+    justify-content: space-between;
+    padding: 7px 2px;
+  }
+
+  &__logo {
+    @include focus-visible;
+
+    display: block;
+    width: clamp(82px, 26vw, 112px);
+    flex: 0 1 auto;
+  }
+
+  &__logo-image {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+
+  &__actions {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+
+  &__phone {
+    @include focus-visible;
+
+    position: relative;
+    display: grid;
+    overflow: hidden;
+    width: 36px;
+    height: 36px;
+    place-items: center;
+    border-radius: 50%;
+  }
+
+  &__phone-content {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    color: $color-white;
+
+    &--hover {
+      position: absolute;
+      inset: 0;
+      color: $color-orange;
+      clip-path: inset(0 100% 0 0);
+      pointer-events: none;
+      transition: clip-path $transition-hover;
+    }
+  }
+
+  &__phone-icon {
+    fill: none;
+    stroke: currentcolor;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-width: 1.5;
+  }
+
+  &__phone-text {
+    display: none;
+  }
+
+  &__contacts {
+    display: none;
+  }
+
+  &__request {
+    display: inline-flex;
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    &__phone:hover &__phone-content--hover {
+      clip-path: inset(0);
+    }
+  }
+
+  @include from(480px) {
+  }
+
+  @include from(768px) {
+    &__inner {
+      min-height: $header-height-tablet;
+      padding-block: 8px;
+    }
+
+    &__logo {
+      width: 142px;
+    }
+
+    &__phone {
+      display: flex;
+      width: auto;
+      height: 40px;
+      align-items: center;
+      padding-inline: 9px;
+      font-size: 0.76rem;
+      font-weight: 600;
+    }
+
+    &__phone-text {
+      display: inline;
+    }
+
+  }
+
+  @include from(1024px) {
+    &__inner {
+      min-height: $header-height-desktop;
+    }
+
+    &__actions {
+      gap: 12px;
+    }
+
+    &__logo {
+      width: 154px;
+    }
+
+    &__phone {
+      font-size: 0.82rem;
+    }
+
+    &__contacts {
+      display: inline-flex;
+    }
+
+    &__menu-toggle {
+      display: none;
+    }
+  }
+
+  @include from(1600px) {
+    &__inner {
+      min-height: 80px;
+    }
+
+    &__logo {
+      width: 172px;
+    }
+  }
+}
+
+.page--loading .header {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.menu-toggle {
+  @include focus-visible;
+
+  position: relative;
+  z-index: 2;
+  display: grid;
+  width: 38px;
+  height: 38px;
+  place-content: center;
+  gap: 4px;
+  cursor: pointer;
+  color: $color-white;
+  background: rgba($color-white, 0.07);
+  border: 1px solid rgba($color-white, 0.13);
+  border-radius: 10px;
+  transition: background-color $transition-fast;
+
+  &__line {
+    display: block;
+    width: 18px;
+    height: 1px;
+    background: currentcolor;
+    transition: transform $transition-base, opacity $transition-base;
+  }
+
+  &--active {
+    .menu-toggle__line:nth-child(1) {
+      transform: translateY(5px) rotate(45deg);
+    }
+
+    .menu-toggle__line:nth-child(2) {
+      opacity: 0;
+    }
+
+    .menu-toggle__line:nth-child(3) {
+      transform: translateY(-5px) rotate(-45deg);
+    }
+  }
+
+  @include from(768px) {
+    width: 42px;
+    height: 42px;
+
+    &__line {
+      width: 21px;
+    }
+  }
+
+  @include from(1024px) {
+    display: none;
+  }
+}

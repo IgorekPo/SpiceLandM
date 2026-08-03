@@ -1,0 +1,27 @@
+@use "../../styles/abstracts/variables" as *;
+
+.work-hours {
+  display: grid;
+  gap: 9px;
+  margin-top: 20px;
+  padding-top: 18px;
+  border-top: 1px solid rgba($color-dark, 0.12);
+  font-size: 0.77rem;
+  text-align: left;
+
+  &__row {
+    display: flex;
+    justify-content: space-between;
+    gap: 16px;
+  }
+
+  dt {
+    color: rgba($color-dark, 0.7);
+  }
+
+  dd {
+    font-weight: 700;
+    text-align: right;
+  }
+}
+

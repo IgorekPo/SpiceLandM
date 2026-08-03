@@ -1,0 +1,56 @@
+<div class="modal" id="contact-modal" role="dialog" aria-modal="true" aria-labelledby="contact-modal-title" aria-hidden="true" data-modal="contact-modal">
+  <div class="modal__backdrop" data-modal-close></div>
+  <div class="modal__dialog" tabindex="-1" data-modal-dialog>
+    <button class="modal__close" type="button" aria-label="Закрити вікно" data-modal-close>
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+    </button>
+    <p class="modal__eyebrow">Зворотний зв’язок</p>
+    <h2 class="modal__title" id="contact-modal-title">Залишити заявку</h2>
+    <p class="modal__description">Заповніть два поля — ми зв’яжемося з вами найближчим часом.</p>
+
+    <form class="contact-form" novalidate data-contact-form>
+      <label class="contact-form__field" data-field>
+        <span class="contact-form__label">Телефон</span>
+        <span class="contact-form__control">
+          <span class="contact-form__prefix" aria-hidden="true">+38</span>
+          <input
+            class="contact-form__input contact-form__input--phone"
+            type="tel"
+            name="phone"
+            inputmode="numeric"
+            autocomplete="tel-national"
+            placeholder="0XX XXX XX XX"
+            maxlength="13"
+            aria-describedby="phone-error"
+            required
+            data-phone-input
+          />
+        </span>
+        <span class="contact-form__error" id="phone-error" aria-live="polite">Введіть 10 цифр, починаючи з 0</span>
+      </label>
+
+      <label class="contact-form__field" data-field>
+        <span class="contact-form__label">Область</span>
+        <span class="contact-form__control">
+          <input
+            class="contact-form__input"
+            type="text"
+            name="region"
+            autocomplete="address-level1"
+            placeholder="Наприклад: Київська область"
+            aria-describedby="region-error"
+            required
+            data-region-input
+          />
+        </span>
+        <span class="contact-form__error" id="region-error" aria-live="polite">Вкажіть область літерами</span>
+      </label>
+
+      <button class="contact-form__submit" type="submit" disabled data-contact-submit>
+        Відправити запит
+      </button>
+    </form>
+  </div>
+</div>
+

@@ -5,16 +5,18 @@ SpiceLandM/
 ├── docs/                  # проектная документация
 ├── src/
 │   ├── assets/
-│   │   ├── fonts/
-│   │   ├── icons/
-│   │   └── images/
-│   ├── js/                # JavaScript и GSAP-сценарии
-│   └── scss/
+│   │   ├── images/
+│   │   │   └── catalog-preview/ # шесть WebP-слоёв двух сцен
+│   │   └── logos/
+│   ├── animations/        # GSAP-сценарии
+│   ├── components/        # независимые UI-компоненты
+│   ├── js/                # точка входа JavaScript
+│   ├── sections/          # HTML, SCSS и JS секций
+│   │   ├── hero/
+│   │   └── catalog-preview/
+│   └── styles/
 │       ├── abstracts/     # переменные и миксины
 │       ├── base/          # reset, базовые стили, типографика
-│       ├── components/    # независимые UI-компоненты
-│       ├── layout/        # каркас страницы
-│       ├── sections/      # стили секций
 │       └── main.scss      # единая точка подключения
 ├── index.html
 └── package.json

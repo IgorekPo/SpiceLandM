@@ -17,5 +17,6 @@ const htmlIncludes = () => ({
 });
 
 export default defineConfig({
+  base: process.env.GITHUB_ACTIONS === 'true' ? '/SpiceLandM/' : '/',
   plugins: [htmlIncludes()],
 });

@@ -2,6 +2,8 @@
 
 ```text
 SpiceLandM/
+├── .github/
+│   └── workflows/         # автоматическая сборка и публикация GitHub Pages
 ├── docs/                  # проектная документация
 ├── src/
 │   ├── assets/

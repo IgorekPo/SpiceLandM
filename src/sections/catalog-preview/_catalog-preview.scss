@@ -72,7 +72,7 @@
   &__layer {
     will-change: transform;
 
-    img {
+    .catalog-preview__media {
       display: block;
       max-width: none;
       user-select: none;
@@ -82,7 +82,7 @@
     &--far {
       inset: -4%;
 
-      img {
+      .catalog-preview__media {
         width: 100%;
         height: 100%;
         object-fit: cover;
@@ -95,40 +95,40 @@
     }
   }
 
-  &__scene--liquid &__layer--far img {
-    object-position: 43% center;
-  }
-
-  &__scene--liquid &__layer--middle img {
-    position: absolute;
-    right: -35%;
-    bottom: 26%;
-    width: 118%;
-  }
-
-  &__scene--liquid &__layer--front img {
-    position: absolute;
-    right: -54%;
-    bottom: -1%;
-    width: 160%;
-  }
-
-  &__scene--dry &__layer--far img {
+  &__scene--liquid &__layer--far .catalog-preview__media {
     object-position: 48% center;
   }
 
-  &__scene--dry &__layer--middle img {
+  &__scene--liquid &__layer--middle .catalog-preview__media {
     position: absolute;
-    right: -29%;
-    bottom: 23%;
-    width: 124%;
+    right: -27.5%;
+    bottom: 19%;
+    width: 155%;
   }
 
-  &__scene--dry &__layer--front img {
+  &__scene--liquid &__layer--front .catalog-preview__media {
     position: absolute;
-    right: -48%;
-    bottom: -1%;
-    width: 158%;
+    right: -30%;
+    bottom: -2%;
+    width: 160%;
+  }
+
+  &__scene--dry &__layer--far .catalog-preview__media {
+    object-position: 50% center;
+  }
+
+  &__scene--dry &__layer--middle .catalog-preview__media {
+    position: absolute;
+    right: -27.5%;
+    bottom: 17%;
+    width: 155%;
+  }
+
+  &__scene--dry &__layer--front .catalog-preview__media {
+    position: absolute;
+    right: -30%;
+    bottom: -2%;
+    width: 160%;
   }
 
   &__shade {
@@ -515,26 +515,28 @@
       color: $color-orange;
     }
 
-    &__scene--liquid &__layer--middle img {
-      right: -8%;
-      bottom: 8%;
-      width: 78%;
+    &__scene--liquid &__layer--middle .catalog-preview__media {
+      right: -2.5%;
+      bottom: -2%;
+      width: 105%;
     }
 
-    &__scene--liquid &__layer--front img {
-      right: -16%;
-      width: 112%;
+    &__scene--liquid &__layer--front .catalog-preview__media {
+      right: -7.5%;
+      bottom: -8%;
+      width: 115%;
     }
 
-    &__scene--dry &__layer--middle img {
-      right: -7%;
-      bottom: 10%;
-      width: 78%;
+    &__scene--dry &__layer--middle .catalog-preview__media {
+      right: -2.5%;
+      bottom: -1%;
+      width: 105%;
     }
 
-    &__scene--dry &__layer--front img {
-      right: -12%;
-      width: 110%;
+    &__scene--dry &__layer--front .catalog-preview__media {
+      right: -7.5%;
+      bottom: -8%;
+      width: 115%;
     }
 
     &__shade {
@@ -630,26 +632,28 @@
       transform: translateX(-50%);
     }
 
-    &__scene--liquid &__layer--middle img {
-      right: -24%;
-      bottom: 18%;
-      width: 94%;
+    &__scene--liquid &__layer--middle .catalog-preview__media {
+      right: -12.5%;
+      bottom: 17%;
+      width: 125%;
     }
 
-    &__scene--liquid &__layer--front img {
-      right: -38%;
-      width: 138%;
+    &__scene--liquid &__layer--front .catalog-preview__media {
+      right: -20%;
+      bottom: -3%;
+      width: 140%;
     }
 
-    &__scene--dry &__layer--middle img {
-      right: -26%;
-      bottom: 20%;
-      width: 100%;
+    &__scene--dry &__layer--middle .catalog-preview__media {
+      right: -12.5%;
+      bottom: 17%;
+      width: 125%;
     }
 
-    &__scene--dry &__layer--front img {
-      right: -33%;
-      width: 132%;
+    &__scene--dry &__layer--front .catalog-preview__media {
+      right: -20%;
+      bottom: -3%;
+      width: 140%;
     }
 
     &__water-shimmer {
@@ -707,7 +711,7 @@
   &__layer {
     will-change: transform;
 
-    img {
+    .catalog-portal__media {
       display: block;
       max-width: none;
       user-select: none;
@@ -717,7 +721,7 @@
     &--far {
       inset: -5%;
 
-      img {
+      .catalog-portal__media {
         width: 100%;
         height: 100%;
         object-fit: cover;
@@ -730,37 +734,37 @@
     }
   }
 
-  &__scene--liquid &__layer--far img,
-  &__scene--dry &__layer--far img {
+  &__scene--liquid &__layer--far .catalog-portal__media,
+  &__scene--dry &__layer--far .catalog-portal__media {
     object-position: center;
   }
 
-  &__scene--liquid &__layer--middle img {
+  &__scene--liquid &__layer--middle .catalog-portal__media {
     position: absolute;
-    right: -10%;
-    bottom: 6%;
-    width: min(76vw, 1080px);
+    right: -2%;
+    bottom: -5%;
+    width: 104vw;
   }
 
-  &__scene--liquid &__layer--front img {
+  &__scene--liquid &__layer--front .catalog-portal__media {
     position: absolute;
-    right: -8%;
-    bottom: -2%;
-    width: min(118vw, 1760px);
+    right: -5%;
+    bottom: -8%;
+    width: 110vw;
   }
 
-  &__scene--dry &__layer--middle img {
+  &__scene--dry &__layer--middle .catalog-portal__media {
     position: absolute;
-    right: 4%;
-    bottom: 8%;
-    width: min(72vw, 1040px);
+    right: -2%;
+    bottom: -5%;
+    width: 104vw;
   }
 
-  &__scene--dry &__layer--front img {
+  &__scene--dry &__layer--front .catalog-portal__media {
     position: absolute;
-    right: -6%;
-    bottom: -2%;
-    width: min(114vw, 1700px);
+    right: -5%;
+    bottom: -8%;
+    width: 110vw;
   }
 
   &__water {

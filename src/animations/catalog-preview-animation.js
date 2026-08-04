@@ -4,8 +4,8 @@ const prefersReducedMotion = () => window.matchMedia('(prefers-reduced-motion: r
 
 const initSceneAmbientMotion = (scene) => {
   const tweens = [];
-  const farImage = scene.querySelector('[data-catalog-layer="0.25"] img');
-  const middleImage = scene.querySelector('[data-catalog-layer="0.55"] img');
+  const farImage = scene.querySelector('[data-catalog-layer="0.25"] .catalog-preview__media');
+  const middleImage = scene.querySelector('[data-catalog-layer="0.55"] .catalog-preview__media');
   const shimmer = scene.querySelector('[data-water-shimmer]');
   const smoke = [...scene.querySelectorAll('[data-catalog-smoke] span')];
 
@@ -93,8 +93,8 @@ export const initCatalogPreviewAnimation = () => {
       layers.forEach((layer) => {
         const strength = Number(layer.dataset.catalogLayer) || 0.5;
         gsap.to(layer, {
-          x: x * 18 * strength,
-          y: y * 12 * strength,
+          x: x * 10 * strength,
+          y: y * 8 * strength,
           duration: 0.55,
           overwrite: 'auto',
           ease: 'power2.out',

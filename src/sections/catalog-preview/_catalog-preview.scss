@@ -273,9 +273,11 @@
   &__actions {
     display: grid;
     width: 100%;
+    justify-items: center;
     gap: 9px;
     margin-top: auto;
     padding-top: 24px;
+    transform: translateY(-40px);
   }
 
   &__button,
@@ -296,6 +298,7 @@
   }
 
   &__button {
+    width: 100%;
     min-height: 50px;
     padding: 10px 14px;
     background: rgba(7, 7, 7, 0.52);
@@ -439,14 +442,15 @@
       display: grid;
       max-width: none;
       grid-template-areas:
-        "eyebrow benefits"
-        "title benefits"
-        "description actions";
-      grid-template-columns: minmax(0, 1.1fr) minmax(250px, 0.9fr);
-      grid-template-rows: auto auto 1fr;
+        "eyebrow ."
+        "title ."
+        "description ."
+        "benefits .";
+      grid-template-columns: minmax(0, 430px) minmax(0, 1fr);
+      grid-template-rows: auto auto auto 1fr;
       align-items: start;
       column-gap: 28px;
-      padding: 18px 28px;
+      padding: 18px 28px 76px;
     }
 
     &__eyebrow {
@@ -471,10 +475,10 @@
     }
 
     &__benefits {
-      align-self: center;
+      align-self: start;
       grid-area: benefits;
       gap: 9px;
-      margin-top: 0;
+      margin-top: 12px;
 
       li {
         font-size: 0.8rem;
@@ -482,11 +486,13 @@
     }
 
     &__actions {
-      width: 100%;
-      align-self: end;
-      grid-area: actions;
-      margin-top: 0;
-      padding-top: 12px;
+      position: absolute;
+      bottom: 18px;
+      left: 50%;
+      width: min(320px, calc(100% - 56px));
+      margin: 0;
+      padding: 0;
+      transform: translate(-50%, -40px);
     }
 
     &__button {
@@ -611,10 +617,13 @@
       font-size: 0.82rem;
     }
 
+    &__benefits {
+      align-self: flex-start;
+    }
+
     &__actions {
+      bottom: 84px;
       width: 320px;
-      margin-top: auto;
-      padding-top: 24px;
     }
 
     &__button {

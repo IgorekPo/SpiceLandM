@@ -30,7 +30,6 @@ export const createMarinadeCard = (product) => {
   card.setAttribute('aria-labelledby', `${product.id}-title`);
 
   card.innerHTML = `
-    <button class="marinade-card__close" type="button" data-card-close aria-label="Закрити картку «${product.name}»">×</button>
     <div class="marinade-card__summary">
       <div class="marinade-card__copy">
         <p class="marinade-card__type">${marinadeLabels.type[product.type]} маринад</p>
@@ -50,7 +49,6 @@ export const createMarinadeCard = (product) => {
     <div class="marinade-card__actions">
       <button class="marinade-card__details-button" type="button" data-card-toggle aria-expanded="false" aria-controls="${product.id}-details">
         <span data-card-toggle-label>Докладніше</span>
-        <span aria-hidden="true" data-card-chevron>⌄</span>
       </button>
       <button class="marinade-card__add-to-cart" type="button" data-add-to-cart aria-label="Додати «${product.name}» у кошик">
         <span aria-hidden="true">🛒</span>
@@ -59,9 +57,11 @@ export const createMarinadeCard = (product) => {
     </div>
     <div class="marinade-card__expandable" id="${product.id}-details" data-card-expandable hidden>
       <div class="marinade-gallery" data-marinade-gallery>
-        <div class="marinade-gallery__track" data-gallery-track>${galleryMarkup(product)}</div>
-        <button class="marinade-gallery__arrow marinade-gallery__arrow--prev" type="button" data-gallery-prev aria-label="Попереднє фото">‹</button>
-        <button class="marinade-gallery__arrow marinade-gallery__arrow--next" type="button" data-gallery-next aria-label="Наступне фото">›</button>
+        <div class="marinade-gallery__viewport">
+          <div class="marinade-gallery__track" data-gallery-track>${galleryMarkup(product)}</div>
+          <button class="marinade-gallery__arrow marinade-gallery__arrow--prev" type="button" data-gallery-prev aria-label="Попереднє фото">‹</button>
+          <button class="marinade-gallery__arrow marinade-gallery__arrow--next" type="button" data-gallery-next aria-label="Наступне фото">›</button>
+        </div>
         <div class="marinade-gallery__dots" aria-hidden="true">
           ${product.dishImages.map((_, index) => `<span class="${index === 0 ? 'is-active' : ''}" data-gallery-dot="${index}"></span>`).join('')}
         </div>
@@ -84,13 +84,12 @@ export const createMarinadeCard = (product) => {
 export const initializeMarinadeCard = (card, product, { lightbox, requestExclusiveOpen, announce }) => {
   const toggle = card.querySelector('[data-card-toggle]');
   const toggleLabel = card.querySelector('[data-card-toggle-label]');
-  const chevron = card.querySelector('[data-card-chevron]');
-  const closeButton = card.querySelector('[data-card-close]');
   const cartButton = card.querySelector('[data-add-to-cart]');
   const cartLabel = card.querySelector('[data-cart-label]');
   const dropTimeline = createMarinadeDropTimeline(card);
   let expanded = false;
   let animating = false;
+  let activeTransition = Promise.resolve();
 
   window.requestAnimationFrame(() => {
     const bounds = card.getBoundingClientRect();
@@ -103,31 +102,32 @@ export const initializeMarinadeCard = (card, product, { lightbox, requestExclusi
   });
 
   const close = async () => {
-    if (!expanded || animating) return;
+    if (animating) await activeTransition;
+    if (!expanded) return;
     animating = true;
     toggle.setAttribute('aria-expanded', 'false');
     toggleLabel.textContent = 'Докладніше';
-    chevron.textContent = '⌄';
-    await collapseCard(card, dropTimeline);
+    activeTransition = collapseCard(card, dropTimeline);
+    await activeTransition;
     expanded = false;
     animating = false;
   };
 
   const open = async () => {
-    if (expanded || animating) return;
+    if (animating) await activeTransition;
+    if (expanded) return;
     animating = true;
     await requestExclusiveOpen(close);
     toggle.setAttribute('aria-expanded', 'true');
     toggleLabel.textContent = 'Згорнути';
-    chevron.textContent = '⌃';
     expanded = true;
-    await expandCard(card, dropTimeline);
+    activeTransition = expandCard(card, dropTimeline);
+    await activeTransition;
     animating = false;
     card.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'nearest' });
   };
 
   toggle.addEventListener('click', () => (expanded ? close() : open()));
-  closeButton.addEventListener('click', close);
   cartButton.addEventListener('click', () => {
     const summary = addMarinadeToCart(product);
     cartButton.classList.add('is-added');

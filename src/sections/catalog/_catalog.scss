@@ -71,9 +71,13 @@
 
   &__title {
     font-family: $font-display;
-    font-size: clamp(1.3rem, 6vw, 2.1rem);
+    font-size: clamp(0.5rem, 3vw, 2.1rem);
     line-height: 1;
     text-transform: uppercase;
+
+    span {
+      color: $color-orange;
+    }
   }
 
   &__count {
@@ -174,7 +178,7 @@
     }
 
     &__title {
-      font-size: clamp(1.8rem, 2.6vw, 2.7rem);
+      font-size: clamp(0.5rem, 3vw, 2.1rem);
     }
 
     &__grid {

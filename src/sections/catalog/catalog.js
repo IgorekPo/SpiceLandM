@@ -8,8 +8,8 @@ import { requestCatalogBackground } from '../../animations/catalog-background-tr
 import { getCartSummary } from '../../js/cart-store.js';
 
 const modeMeta = {
-  liquid: { title: 'Каталог рідких маринадів', opposite: 'Каталог сухих маринадів', next: 'dry' },
-  dry: { title: 'Каталог сухих маринадів', opposite: 'Каталог рідких маринадів', next: 'liquid' },
+  liquid: { title: 'Каталог <span>рідких</span> маринадів', opposite: 'Каталог сухих маринадів', next: 'dry' },
+  dry: { title: 'Каталог <span>сухих</span> маринадів', opposite: 'Каталог рідких маринадів', next: 'liquid' },
   all: { title: 'Загальний каталог маринадів', opposite: 'Перейти до рідких маринадів', next: 'liquid' },
 };
 
@@ -105,7 +105,7 @@ export const initializeCatalog = () => {
   };
 
   const syncModeControls = () => {
-    title.textContent = modeMeta[mode].title;
+    title.innerHTML = modeMeta[mode].title;
     opposite.textContent = modeMeta[mode].opposite;
     opposite.dataset.nextMode = modeMeta[mode].next;
     const typeField = filterForm.querySelector(`[name="catalog-type"][value="${mode}"]`);
@@ -206,6 +206,11 @@ export const initializeCatalog = () => {
     if (catalog.classList.contains('catalog--drawer-open')) closeDrawer();
     else if (currentCardClose) closeExpandedCard();
     else catalog.dispatchEvent(new CustomEvent('catalog:request-close', { bubbles: true }));
+  });
+  document.addEventListener('pointerdown', (event) => {
+    if (!currentCardClose || !catalog.classList.contains('catalog--active')) return;
+    if (event.target.closest('.marinade-card') || event.target.closest('[data-image-lightbox]')) return;
+    closeExpandedCard();
   });
   catalog.addEventListener('catalog:open', (event) => openCatalog(event.detail.mode));
   catalog.addEventListener('catalog:hide', hideCatalog);

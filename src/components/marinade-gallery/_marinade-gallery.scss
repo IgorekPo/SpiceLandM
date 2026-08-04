@@ -2,7 +2,11 @@
 
 .marinade-gallery {
   position: relative;
-  overflow: hidden;
+
+  &__viewport {
+    position: relative;
+    overflow: hidden;
+  }
 
   &__track {
     display: flex;
@@ -66,6 +70,10 @@
 
     &--prev { left: 4px; }
     &--next { right: 4px; }
+  }
+
+  &__viewport &__arrow {
+    position: absolute;
   }
 
   &__dots {

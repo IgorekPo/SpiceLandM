@@ -28,11 +28,18 @@
     margin-bottom: 16px;
   }
 
-  &__logo {
-    width: min(100%, 150px);
-    height: 44px;
-    object-fit: contain;
-    object-position: left center;
+  &__home {
+    min-width: 112px;
+    min-height: 44px;
+    padding: 9px 14px;
+    color: $color-white;
+    background: rgba(0, 0, 0, 0.34);
+    border: 1px solid rgba($color-white, 0.24);
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 0.8rem;
+    font-weight: 700;
+    text-align: left;
   }
 
   &__drawer-close {

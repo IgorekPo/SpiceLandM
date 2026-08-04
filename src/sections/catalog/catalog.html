@@ -2,7 +2,7 @@
   <div class="catalog__backdrop" data-catalog-drawer-close></div>
   <aside class="catalog-sidebar" aria-label="Навігація та фільтр каталогу" data-catalog-sidebar>
     <div class="catalog-sidebar__top">
-      <img class="catalog-sidebar__logo" src="/logo.svg" alt="SpiceLand" />
+      <button class="catalog-sidebar__home" type="button" data-catalog-home>Головна</button>
       <button class="catalog-sidebar__drawer-close" type="button" data-catalog-drawer-close aria-label="Закрити фільтр">×</button>
     </div>
     <nav class="catalog-sidebar__navigation" aria-label="Навігація каталогу">
@@ -59,10 +59,10 @@
 
 <div class="image-lightbox" role="dialog" aria-modal="true" aria-hidden="true" aria-label="Перегляд фотографій" inert data-image-lightbox>
   <button class="image-lightbox__close" type="button" aria-label="Закрити фото" data-lightbox-close>×</button>
-  <button class="image-lightbox__arrow image-lightbox__arrow--prev" type="button" aria-label="Попереднє фото" data-lightbox-prev>‹</button>
   <figure class="image-lightbox__figure">
     <img class="image-lightbox__image" src="" alt="" data-lightbox-image />
     <figcaption class="image-lightbox__counter" data-lightbox-counter></figcaption>
   </figure>
+  <button class="image-lightbox__arrow image-lightbox__arrow--prev" type="button" aria-label="Попереднє фото" data-lightbox-prev>‹</button>
   <button class="image-lightbox__arrow image-lightbox__arrow--next" type="button" aria-label="Наступне фото" data-lightbox-next>›</button>
 </div>

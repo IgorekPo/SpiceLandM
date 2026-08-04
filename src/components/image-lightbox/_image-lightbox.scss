@@ -22,10 +22,12 @@
 
   &__figure {
     position: relative;
+    z-index: 1;
     display: grid;
     width: 80vw;
     max-height: 80svh;
     justify-items: center;
+    pointer-events: none;
   }
 
   &__image {
@@ -67,11 +69,12 @@
 
   &__arrow {
     position: absolute;
-    z-index: 3;
+    z-index: 4;
     top: 50%;
     width: 42px;
     height: 58px;
     font-size: 1.8rem;
+    pointer-events: auto;
     transform: translateY(-50%);
 
     &--prev { left: calc(10vw + 4px); }

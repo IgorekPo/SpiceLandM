@@ -152,9 +152,6 @@
       display: inline-flex;
     }
 
-    &__menu-toggle {
-      display: none;
-    }
   }
 
   @include from(1600px) {
@@ -229,7 +226,4 @@
     }
   }
 
-  @include from(1024px) {
-    display: none;
-  }
 }

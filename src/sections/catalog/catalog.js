@@ -26,6 +26,7 @@ export const initializeCatalog = () => {
   const sidebar = catalog.querySelector('[data-catalog-sidebar]');
   const drawerOpen = catalog.querySelector('[data-catalog-drawer-open]');
   const drawerClosers = catalog.querySelectorAll('[data-catalog-drawer-close]');
+  const home = catalog.querySelector('[data-catalog-home]');
   const opposite = catalog.querySelector('[data-catalog-opposite]');
   const cartCount = catalog.querySelector('[data-cart-count]');
   const lightbox = initializeImageLightbox();
@@ -160,6 +161,11 @@ export const initializeCatalog = () => {
 
   drawerOpen.addEventListener('click', openDrawer);
   drawerClosers.forEach((button) => button.addEventListener('click', closeDrawer));
+  home.addEventListener('click', () => {
+    closeDrawer();
+    catalog.dispatchEvent(new CustomEvent('catalog:request-close', { bubbles: true }));
+    window.setTimeout(() => document.querySelector('#hero')?.scrollIntoView({ behavior: 'smooth', block: 'start' }), 900);
+  });
   opposite.addEventListener('click', async () => {
     await closeExpandedCard();
     setMode(opposite.dataset.nextMode, { animate: true, updateBackground: true });

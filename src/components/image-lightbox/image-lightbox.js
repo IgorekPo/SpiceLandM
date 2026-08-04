@@ -3,6 +3,7 @@ export const initializeImageLightbox = () => {
   if (!lightbox) return { open: () => {} };
 
   const image = lightbox.querySelector('[data-lightbox-image]');
+  const figure = lightbox.querySelector('.image-lightbox__figure');
   const closeButton = lightbox.querySelector('[data-lightbox-close]');
   const previous = lightbox.querySelector('[data-lightbox-prev]');
   const next = lightbox.querySelector('[data-lightbox-next]');
@@ -43,10 +44,24 @@ export const initializeImageLightbox = () => {
   };
 
   closeButton.addEventListener('click', close);
-  previous.addEventListener('click', () => go(-1));
-  next.addEventListener('click', () => go(1));
+  previous.addEventListener('click', (event) => {
+    event.preventDefault();
+    event.stopPropagation();
+    go(-1);
+  });
+  next.addEventListener('click', (event) => {
+    event.preventDefault();
+    event.stopPropagation();
+    go(1);
+  });
   lightbox.addEventListener('click', (event) => {
-    if (event.target === lightbox) close();
+    if (event.target !== lightbox) return;
+    const bounds = figure.getBoundingClientRect();
+    const insideFigure = event.clientX >= bounds.left
+      && event.clientX <= bounds.right
+      && event.clientY >= bounds.top
+      && event.clientY <= bounds.bottom;
+    if (!insideFigure) close();
   });
   lightbox.addEventListener('touchstart', (event) => {
     touchStartX = event.changedTouches[0].clientX;

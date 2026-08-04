@@ -19,107 +19,6 @@
     pointer-events: none;
   }
 
-  &__liquid {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    width: clamp(82px, 12vw, 138px);
-    aspect-ratio: 1;
-    overflow: visible;
-    opacity: 0;
-    translate: -50% -50%;
-    will-change: transform, opacity, filter;
-
-    &--orange {
-      --drop-main: #ff9d19;
-      --drop-deep: #a94700;
-      --drop-light: #ffe0a3;
-      --drop-glow: rgba(255, 145, 0, 0.48);
-    }
-
-    &--green {
-      --drop-main: #7faf22;
-      --drop-deep: #285a12;
-      --drop-light: #ddf58f;
-      --drop-glow: rgba(117, 174, 42, 0.46);
-    }
-
-    &--red {
-      --drop-main: #e52b20;
-      --drop-deep: #76120f;
-      --drop-light: #ffb5a8;
-      --drop-glow: rgba(225, 31, 33, 0.5);
-    }
-  }
-
-  &__liquid-body {
-    position: absolute;
-    inset: 0;
-    transform-origin: 50% 50%;
-    will-change: transform;
-  }
-
-  &__drop-core {
-    position: absolute;
-    z-index: 2;
-    inset: 7%;
-    background:
-      radial-gradient(circle at 32% 25%, var(--drop-light) 0 7%, transparent 8%),
-      radial-gradient(circle at 38% 32%, var(--drop-main) 0 24%, var(--drop-deep) 76%);
-    border: 1px solid rgba($color-white, 0.18);
-    border-radius: 52% 48% 55% 45% / 48% 54% 46% 52%;
-    box-shadow: inset -10px -12px 20px rgba(0, 0, 0, 0.26);
-    filter: drop-shadow(0 0 14px var(--drop-glow));
-  }
-
-  &__drop-tail {
-    position: absolute;
-    z-index: 1;
-    top: 35%;
-    left: -48%;
-    width: 70%;
-    height: 30%;
-    background: linear-gradient(90deg, transparent 2%, var(--drop-deep) 44%, var(--drop-main));
-    border-radius: 100% 10% 10% 100% / 50%;
-    transform: rotate(-7deg);
-    transform-origin: 100% 50%;
-  }
-
-  &__drop-highlight {
-    position: absolute;
-    z-index: 3;
-    top: 20%;
-    left: 24%;
-    width: 23%;
-    height: 11%;
-    opacity: 0.72;
-    background: rgba($color-white, 0.52);
-    border-radius: 50%;
-    filter: blur(1px);
-    transform: rotate(-28deg);
-  }
-
-  &__liquid--red .intro__drop-tail {
-    right: -48%;
-    left: auto;
-    background: linear-gradient(270deg, transparent 2%, var(--drop-deep) 44%, var(--drop-main));
-    border-radius: 10% 100% 100% 10% / 50%;
-    transform: rotate(7deg);
-    transform-origin: 0 50%;
-  }
-
-  &__liquid--green .intro__drop-tail {
-    top: auto;
-    bottom: -48%;
-    left: 35%;
-    width: 30%;
-    height: 70%;
-    background: linear-gradient(180deg, var(--drop-main), var(--drop-deep) 56%, transparent 98%);
-    border-radius: 10% 10% 100% 100% / 10% 10% 80% 80%;
-    transform: rotate(-3deg);
-    transform-origin: 50% 0;
-  }
-
   &__collision {
     position: absolute;
     z-index: 4;
@@ -198,10 +97,6 @@
   }
 
   @include from(768px) {
-    &__liquid {
-      width: clamp(108px, 10vw, 152px);
-    }
-
     &__brand {
       top: calc(#{$header-height-tablet} + 20px);
       width: 148px;

@@ -1,0 +1,28 @@
+<template data-liquid-drop-template>
+  <div class="liquid-drop" data-liquid-drop data-drop-state="idle" aria-hidden="true">
+    <svg class="liquid-drop__svg" viewBox="0 0 160 240" role="presentation">
+      <defs>
+        <clipPath data-drop-clip>
+          <path data-drop-path></path>
+        </clipPath>
+      </defs>
+      <g class="liquid-drop__visual" data-drop-visual>
+        <image
+          class="liquid-drop__texture"
+          x="20"
+          y="0"
+          width="120"
+          height="240"
+          preserveAspectRatio="none"
+          data-drop-texture
+        ></image>
+        <path class="liquid-drop__depth" data-drop-depth data-drop-path></path>
+        <path class="liquid-drop__edge" data-drop-edge data-drop-path></path>
+        <path
+          class="liquid-drop__highlight"
+          d="M61 45 C52 65 47 88 48 111 C49 123 53 127 59 115 C65 92 70 67 73 43 C74 34 68 33 61 45 Z"
+        ></path>
+      </g>
+    </svg>
+  </div>
+</template>

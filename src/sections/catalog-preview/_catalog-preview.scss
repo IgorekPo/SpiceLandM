@@ -302,9 +302,9 @@
   }
 
   &__button {
-    width: 100%;
+    width: fit-content;
     min-height: 50px;
-    padding: 10px 14px;
+    padding: 10px 20px;
     background: rgba(7, 7, 7, 0.52);
     border-color: rgba($color-white, 0.48);
     font-size: 0.7rem;
@@ -389,7 +389,7 @@
 
     &__button {
       min-height: 43px;
-      padding: 7px 12px;
+      padding: 7px 20px;
       font-size: 0.64rem;
     }
 
@@ -501,7 +501,7 @@
 
     &__button {
       min-height: 50px;
-      padding-inline: 16px;
+      padding-inline: 20px;
       font-size: 0.72rem;
     }
 
@@ -515,8 +515,11 @@
       z-index: 7;
       display: flex;
       flex: 0 0 auto;
-      width: min(100%, 380px);
+      width: fit-content;
+      max-width: calc(100% - 4px);
       margin: 8px auto 0;
+      padding-right: 20px;
+      padding-left: 20px;
       background: rgba(16, 12, 10, 0.84);
       border-color: rgba($color-orange, 0.5);
     }
@@ -595,12 +598,19 @@
     }
 
     &__content {
-      display: flex;
+      display: grid;
       width: min(100%, calc(#{$container} / 2));
       max-width: calc(#{$container} / 2);
-      flex-direction: column;
-      align-items: flex-start;
-      padding: calc(#{$header-height-desktop} + 30px) 30px 84px;
+      grid-template-areas:
+        "title eyebrow"
+        "title benefits"
+        "description benefits";
+      grid-template-columns: minmax(0, 1.08fr) minmax(0, 0.92fr);
+      grid-template-rows: auto auto 1fr;
+      align-items: start;
+      column-gap: 18px;
+      row-gap: 8px;
+      padding: calc(#{$header-height-desktop} + 10px) 30px 84px;
     }
 
     &__scene--liquid &__content {
@@ -612,11 +622,23 @@
     }
 
     &__title {
+      grid-area: title;
       max-width: 100%;
-      font-size: clamp(2.4rem, 3.35vw, 3.2rem);
+      margin: 0;
+      font-size: clamp(2rem, 3vw, 3.2rem);
+    }
+
+    &__eyebrow {
+      align-self: start;
+      justify-self: end;
+      grid-area: eyebrow;
+      margin: 0;
+      text-align: right;
     }
 
     &__description {
+      align-self: start;
+      grid-area: description;
       max-width: 340px;
       font-size: 0.9rem;
     }
@@ -627,6 +649,10 @@
 
     &__benefits {
       align-self: flex-start;
+      justify-self: end;
+      grid-area: benefits;
+      max-width: 100%;
+      margin-top: 0;
     }
 
     &__actions {
@@ -636,7 +662,7 @@
 
     &__button {
       min-height: 56px;
-      padding-inline: 19px;
+      padding-inline: 20px;
       font-size: 0.78rem;
     }
 

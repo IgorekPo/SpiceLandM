@@ -848,9 +848,31 @@
   }
 
   @include from(768px) {
+    &__scene--liquid &__layer--middle .catalog-portal__media,
+    &__scene--liquid &__layer--front .catalog-portal__media,
+    &__scene--dry &__layer--middle .catalog-portal__media,
+    &__scene--dry &__layer--front .catalog-portal__media {
+      width: 112%;
+      height: 112%;
+      margin: -6%;
+    }
+
     &__back {
       top: 24px;
       left: 18px;
+    }
+  }
+
+  @include from(1024px) {
+    &__scene--liquid &__layer--middle .catalog-portal__media,
+    &__scene--liquid &__layer--front .catalog-portal__media,
+    &__scene--dry &__layer--middle .catalog-portal__media,
+    &__scene--dry &__layer--front .catalog-portal__media {
+      width: 100%;
+      height: 100%;
+      margin: 0;
+      object-fit: cover;
+      object-position: center bottom;
     }
   }
 }

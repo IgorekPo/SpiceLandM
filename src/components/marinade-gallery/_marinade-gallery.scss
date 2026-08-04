@@ -1,0 +1,90 @@
+@use "../../styles/abstracts/variables" as *;
+
+.marinade-gallery {
+  position: relative;
+  overflow: hidden;
+
+  &__track {
+    display: flex;
+    gap: 7px;
+    overflow-x: auto;
+    scroll-behavior: smooth;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+
+    &::-webkit-scrollbar { display: none; }
+  }
+
+  &__slide {
+    position: relative;
+    overflow: hidden;
+    width: 82%;
+    aspect-ratio: 16 / 9;
+    flex: 0 0 82%;
+    padding: 0;
+    background: rgba(0, 0, 0, 0.35);
+    border: 1px solid rgba($color-white, 0.24);
+    border-radius: 9px;
+    cursor: zoom-in;
+    scroll-snap-align: center;
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+  }
+
+  &__zoom {
+    position: absolute;
+    right: 7px;
+    bottom: 7px;
+    display: grid;
+    width: 28px;
+    height: 28px;
+    place-items: center;
+    background: rgba(0, 0, 0, 0.64);
+    border-radius: 50%;
+    font-size: 1rem;
+  }
+
+  &__arrow {
+    position: absolute;
+    z-index: 3;
+    top: 50%;
+    display: grid;
+    width: 30px;
+    height: 38px;
+    place-items: center;
+    color: $color-white;
+    background: rgba(0, 0, 0, 0.6);
+    border: 1px solid rgba($color-white, 0.22);
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 1.3rem;
+    transform: translateY(-50%);
+
+    &--prev { left: 4px; }
+    &--next { right: 4px; }
+  }
+
+  &__dots {
+    display: flex;
+    justify-content: center;
+    gap: 5px;
+    margin-top: 7px;
+
+    span {
+      width: 6px;
+      height: 6px;
+      background: rgba($color-white, 0.35);
+      border-radius: 50%;
+
+      &.is-active {
+        width: 18px;
+        background: $color-orange;
+        border-radius: 99px;
+      }
+    }
+  }
+}

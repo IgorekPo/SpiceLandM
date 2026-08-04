@@ -49,7 +49,9 @@ const purposeLabels = {
 
 const makeProduct = ([name, color, tastes, suitableFor], index, type) => {
   const isLiquid = type === 'liquid';
-  const packageWeight = isLiquid ? `${2.1 + ((index % 4) * 0.1)} кг` : `${0.8 + ((index % 3) * 0.1)} кг`;
+  const packageWeight = isLiquid
+    ? `${(2.1 + ((index % 4) * 0.1)).toFixed(1)} кг`
+    : `${(0.8 + ((index % 3) * 0.1)).toFixed(1)} кг`;
   const price = (isLiquid ? 300 : 190) + (index * (isLiquid ? 8 : 6));
   const destinations = suitableFor.map((item) => purposeLabels[item]).join(' та ');
 

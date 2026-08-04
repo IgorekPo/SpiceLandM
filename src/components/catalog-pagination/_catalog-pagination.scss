@@ -1,0 +1,31 @@
+@use "../../styles/abstracts/variables" as *;
+
+.catalog-pagination {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 14px;
+
+  button {
+    width: 46px;
+    height: 38px;
+    color: $color-white;
+    background: rgba(12, 15, 10, 0.54);
+    border: 1px solid rgba($color-white, 0.24);
+    border-radius: 9px;
+    cursor: pointer;
+
+    &:disabled {
+      cursor: default;
+      opacity: 0.35;
+    }
+  }
+
+  span {
+    min-width: 54px;
+    color: rgba($color-white, 0.78);
+    font-size: 0.76rem;
+    text-align: center;
+  }
+}

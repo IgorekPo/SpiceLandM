@@ -125,7 +125,7 @@ export const initializeCatalog = () => {
   };
 
   const openCatalog = (nextMode) => {
-    filterForm.reset();
+    filterForm.querySelectorAll('input').forEach((field) => { field.checked = false; });
     setMode(nextMode);
     catalog.inert = false;
     catalog.setAttribute('aria-hidden', 'false');
@@ -157,7 +157,8 @@ export const initializeCatalog = () => {
   };
 
   initializeCatalogFilter(filterForm, {
-    onApply: (filters) => {
+    onApply: async (filters) => {
+      await closeExpandedCard();
       const requestedMode = filters.types[0] || mode;
       mode = modeMeta[requestedMode] ? requestedMode : mode;
       page = 0;
@@ -167,7 +168,8 @@ export const initializeCatalog = () => {
       requestCatalogBackground(catalog, mode);
       closeDrawer();
     },
-    onReset: () => {
+    onReset: async () => {
+      await closeExpandedCard();
       setMode(mode, { animate: true });
       closeDrawer();
     },
@@ -186,7 +188,10 @@ export const initializeCatalog = () => {
   drawerOpen.addEventListener('click', openDrawer);
   drawerClosers.forEach((button) => button.addEventListener('click', closeDrawer));
   home.addEventListener('click', () => catalog.dispatchEvent(new CustomEvent('catalog:request-close', { bubbles: true })));
-  opposite.addEventListener('click', () => setMode(opposite.dataset.nextMode, { animate: true, updateBackground: true }));
+  opposite.addEventListener('click', async () => {
+    await closeExpandedCard();
+    setMode(opposite.dataset.nextMode, { animate: true, updateBackground: true });
+  });
   window.addEventListener('cart:updated', (event) => updateCart(event.detail));
   window.addEventListener('resize', () => {
     if (resizeFrame) return;

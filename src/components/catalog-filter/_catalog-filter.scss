@@ -1,0 +1,76 @@
+@use "../../styles/abstracts/variables" as *;
+
+.catalog-filter {
+  &__heading {
+    margin-bottom: 10px;
+    color: $color-orange;
+    font-family: $font-display;
+    font-size: 1.35rem;
+    text-transform: uppercase;
+  }
+
+  &__group {
+    padding-block: 9px;
+    border-top: 1px solid rgba($color-white, 0.15);
+
+    summary {
+      cursor: pointer;
+      font-size: 0.82rem;
+      font-weight: 700;
+    }
+  }
+
+  &__option {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 8px;
+    color: rgba($color-white, 0.84);
+    cursor: pointer;
+    font-size: 0.76rem;
+
+    input {
+      width: 16px;
+      height: 16px;
+      accent-color: $color-orange;
+    }
+
+    &--green span::before,
+    &--red span::before,
+    &--yellow span::before {
+      display: inline-block;
+      width: 8px;
+      height: 8px;
+      margin-right: 6px;
+      border-radius: 50%;
+      content: "";
+    }
+
+    &--green span::before { background: #75a832; }
+    &--red span::before { background: #d73728; }
+    &--yellow span::before { background: #e6a321; }
+  }
+
+  &__actions {
+    display: grid;
+    gap: 8px;
+    margin-top: 14px;
+  }
+
+  &__apply,
+  &__reset {
+    min-height: 42px;
+    padding: 9px 12px;
+    color: $color-white;
+    background: rgba(0, 0, 0, 0.34);
+    border: 1px solid rgba($color-white, 0.24);
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 0.76rem;
+  }
+
+  &__apply {
+    background: rgba($color-orange, 0.9);
+    color: $color-dark;
+  }
+}

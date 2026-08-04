@@ -1,0 +1,82 @@
+@use "../../styles/abstracts/variables" as *;
+
+.image-lightbox {
+  position: fixed;
+  z-index: 260;
+  inset: 0;
+  display: grid;
+  visibility: hidden;
+  align-items: center;
+  grid-template-columns: 46px minmax(0, 1fr) 46px;
+  gap: 4px;
+  padding: 12px 2px;
+  opacity: 0;
+  background: rgba(0, 0, 0, 0.92);
+  pointer-events: none;
+  transition: opacity 0.35s ease, visibility 0.35s ease;
+
+  &--active {
+    visibility: visible;
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  &__figure {
+    display: grid;
+    max-height: calc(100svh - 24px);
+    justify-items: center;
+    gap: 8px;
+  }
+
+  &__image {
+    width: auto;
+    max-width: 100%;
+    height: auto;
+    max-height: calc(100svh - 70px);
+    object-fit: contain;
+    touch-action: pan-y pinch-zoom;
+  }
+
+  &__counter {
+    color: rgba($color-white, 0.75);
+    font-size: 0.75rem;
+  }
+
+  &__close,
+  &__arrow {
+    display: grid;
+    place-items: center;
+    color: $color-white;
+    background: rgba(25, 24, 21, 0.76);
+    border: 1px solid rgba($color-white, 0.3);
+    border-radius: 10px;
+    cursor: pointer;
+  }
+
+  &__close {
+    position: absolute;
+    z-index: 3;
+    top: 12px;
+    right: 12px;
+    width: 44px;
+    height: 44px;
+    font-size: 1.6rem;
+  }
+
+  &__arrow {
+    width: 42px;
+    height: 58px;
+    font-size: 1.8rem;
+  }
+
+  @media (min-width: 768px) {
+    grid-template-columns: 70px minmax(0, 1fr) 70px;
+    gap: 12px;
+    padding: 24px;
+
+    &__arrow {
+      width: 56px;
+      height: 72px;
+    }
+  }
+}

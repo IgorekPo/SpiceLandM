@@ -51,7 +51,8 @@ export const collapseCard = (card, dropTimeline) => new Promise((resolve) => {
     onComplete: () => {
       card.classList.remove('marinade-card--expanded');
       expandable.hidden = true;
-      gsap.set([card, gallery, info], { clearProps: 'all' });
+      gsap.set(card, { clearProps: 'height' });
+      gsap.set([gallery, info], { clearProps: 'all' });
       resolve();
     },
   })

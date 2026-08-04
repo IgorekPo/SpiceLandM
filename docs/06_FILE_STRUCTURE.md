@@ -8,14 +8,18 @@ SpiceLandM/
 ├── src/
 │   ├── assets/
 │   │   ├── images/
-│   │   │   └── catalog-preview/ # шесть WebP-слоёв двух сцен
+│   │   │   ├── catalog-preview/ # шесть WebP-слоёв двух сцен
+│   │   │   ├── marinades/       # текстуры рідких і сухих маринадів
+│   │   │   └── dishes/          # фото готових страв для галерей
 │   │   └── logos/
 │   ├── animations/        # GSAP-сценарии
 │   ├── components/        # независимые UI-компоненты
-│   ├── js/                # точка входа JavaScript
+│   ├── data/              # единый источник данных товаров
+│   ├── js/                # точка входа JavaScript и store корзины
 │   ├── sections/          # HTML, SCSS и JS секций
 │   │   ├── hero/
-│   │   └── catalog-preview/
+│   │   ├── catalog-preview/
+│   │   └── catalog/
 │   └── styles/
 │       ├── abstracts/     # переменные и миксины
 │       ├── base/          # reset, базовые стили, типографика

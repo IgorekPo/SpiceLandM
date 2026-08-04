@@ -8,3 +8,10 @@
 @use "../components/success-modal/success-modal";
 @use "../sections/hero/hero";
 @use "../sections/catalog-preview/catalog-preview";
+@use "../components/catalog-sidebar/catalog-sidebar";
+@use "../components/catalog-filter/catalog-filter";
+@use "../components/marinade-card/marinade-card";
+@use "../components/marinade-gallery/marinade-gallery";
+@use "../components/image-lightbox/image-lightbox";
+@use "../components/catalog-pagination/catalog-pagination";
+@use "../sections/catalog/catalog";

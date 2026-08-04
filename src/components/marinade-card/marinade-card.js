@@ -93,7 +93,13 @@ export const initializeMarinadeCard = (card, product, { lightbox, requestExclusi
   let animating = false;
 
   window.requestAnimationFrame(() => {
+    const bounds = card.getBoundingClientRect();
     card.dataset.closedHeight = String(card.offsetHeight);
+    const fixedWidth = Math.floor(bounds.width);
+    card.style.width = `${fixedWidth}px`;
+    card.style.minWidth = `${fixedWidth}px`;
+    card.style.maxWidth = `${fixedWidth}px`;
+    card.style.flexBasis = `${fixedWidth}px`;
   });
 
   const close = async () => {

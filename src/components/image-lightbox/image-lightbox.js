@@ -57,6 +57,7 @@ export const initializeImageLightbox = () => {
   }, { passive: true });
   document.addEventListener('keydown', (event) => {
     if (!lightbox.classList.contains('image-lightbox--active')) return;
+    event.stopImmediatePropagation();
     if (event.key === 'Escape') close();
     if (event.key === 'ArrowLeft') go(-1);
     if (event.key === 'ArrowRight') go(1);

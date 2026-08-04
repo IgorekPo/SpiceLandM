@@ -226,6 +226,37 @@ export const createCatalogPortalAnimation = (portal) => {
     });
   };
 
+  const changeCategory = (category) => new Promise((resolve) => {
+    const nextScene = portalScenes.find((scene) => scene.dataset.portalCategory === category);
+    if (!active || !nextScene || nextScene === activePortalScene) {
+      resolve(false);
+      return;
+    }
+
+    const previousScene = activePortalScene;
+    nextScene.classList.add('catalog-portal__scene--active');
+    nextScene.setAttribute('aria-hidden', 'false');
+    gsap.set(nextScene, { autoAlpha: 0 });
+    gsap.set(nextScene.querySelectorAll('[data-portal-layer]'), { x: 0, y: 0 });
+
+    portalAmbientTweens.forEach(({ category: tweenCategory, tween }) => {
+      if (tweenCategory === category) tween.play();
+      else tween.pause(0);
+    });
+
+    gsap.timeline({
+      onComplete: () => {
+        previousScene?.classList.remove('catalog-portal__scene--active');
+        previousScene?.setAttribute('aria-hidden', 'true');
+        gsap.set([previousScene, nextScene], { clearProps: 'opacity,visibility' });
+        activePortalScene = nextScene;
+        resolve(true);
+      },
+    })
+      .to(previousScene, { autoAlpha: 0, duration: 0.55, ease: 'power2.inOut' }, 0)
+      .to(nextScene, { autoAlpha: 1, duration: 0.65, ease: 'power2.inOut' }, 0.08);
+  });
+
   const movePortalLayers = (event) => {
     if (!pointerParallaxEnabled || !activePortalScene || !active || animating) return;
     const x = ((event.clientX / window.innerWidth) - 0.5) * 2;
@@ -358,6 +389,7 @@ export const createCatalogPortalAnimation = (portal) => {
   return {
     enter,
     leave,
+    changeCategory,
     isActive: () => active || animating,
   };
 };

@@ -11,10 +11,12 @@ import { initContactModal } from '../components/contact-modal/contact-modal.js';
 import { initSuccessModal } from '../components/success-modal/success-modal.js';
 import { initHero } from '../sections/hero/hero.js';
 import { initCatalogPreview } from '../sections/catalog-preview/catalog-preview.js';
+import { initializeCatalog } from '../sections/catalog/catalog.js';
 
 initHeader();
 initBurgerMenu();
 initHero();
+initializeCatalog();
 initCatalogPreview();
 initCatalogPreviewAnimation();
 initSectionScroll();

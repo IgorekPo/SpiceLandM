@@ -1,0 +1,74 @@
+<section class="catalog" aria-hidden="true" inert data-catalog-shell>
+  <div class="catalog__backdrop" data-catalog-drawer-close></div>
+  <aside class="catalog-sidebar" aria-label="Навігація та фільтр каталогу" data-catalog-sidebar>
+    <div class="catalog-sidebar__top">
+      <img class="catalog-sidebar__logo" src="/logo.svg" alt="SpiceLand" />
+      <button class="catalog-sidebar__drawer-close" type="button" data-catalog-drawer-close aria-label="Закрити фільтр">×</button>
+    </div>
+    <nav class="catalog-sidebar__navigation" aria-label="Навігація каталогу">
+      <button type="button" data-catalog-home>← Головна</button>
+      <button type="button" data-catalog-opposite></button>
+    </nav>
+    <form class="catalog-filter" data-catalog-filter>
+      <h2 class="catalog-filter__heading">Фільтр</h2>
+      <details class="catalog-filter__group" open>
+        <summary>Тип маринаду</summary>
+        <label class="catalog-filter__option"><input type="radio" name="catalog-type" value="liquid" /> <span>Рідкі</span></label>
+        <label class="catalog-filter__option"><input type="radio" name="catalog-type" value="dry" /> <span>Сухі</span></label>
+        <label class="catalog-filter__option"><input type="radio" name="catalog-type" value="all" /> <span>Рідкі + сухі</span></label>
+      </details>
+      <details class="catalog-filter__group">
+        <summary>Колір</summary>
+        <label class="catalog-filter__option catalog-filter__option--green"><input type="checkbox" name="catalog-color" value="green" /> <span>Зелені</span></label>
+        <label class="catalog-filter__option catalog-filter__option--red"><input type="checkbox" name="catalog-color" value="red" /> <span>Червоні</span></label>
+        <label class="catalog-filter__option catalog-filter__option--yellow"><input type="checkbox" name="catalog-color" value="yellow" /> <span>Жовті</span></label>
+      </details>
+      <details class="catalog-filter__group">
+        <summary>Для чого</summary>
+        <label class="catalog-filter__option"><input type="checkbox" name="catalog-purpose" value="poultry" /> <span>Птиця</span></label>
+        <label class="catalog-filter__option"><input type="checkbox" name="catalog-purpose" value="meat" /> <span>М’ясо</span></label>
+        <label class="catalog-filter__option"><input type="checkbox" name="catalog-purpose" value="fish" /> <span>Риба</span></label>
+      </details>
+      <div class="catalog-filter__actions">
+        <button class="catalog-filter__apply" type="submit">Застосувати</button>
+        <button class="catalog-filter__reset" type="reset">Скинути фільтр</button>
+      </div>
+    </form>
+  </aside>
+
+  <div class="catalog__content">
+    <header class="catalog__header">
+      <button class="catalog__filter-toggle" type="button" data-catalog-drawer-open aria-expanded="false">☰ Фільтр</button>
+      <div>
+        <p class="catalog__eyebrow">SpiceLand · Premium marinades</p>
+        <h1 class="catalog__title" data-catalog-title>Каталог маринадів</h1>
+        <p class="catalog__count" data-catalog-count></p>
+      </div>
+      <div class="catalog__cart" aria-label="Товарів у кошику">
+        <span aria-hidden="true">🛒</span>
+        <strong data-cart-count>0</strong>
+      </div>
+    </header>
+
+    <div class="catalog__grid" data-catalog-grid aria-live="polite"></div>
+    <p class="catalog__empty" data-catalog-empty hidden>За вибраними параметрами маринадів не знайдено.</p>
+
+    <nav class="catalog-pagination" aria-label="Сторінки каталогу" data-catalog-pagination>
+      <button type="button" data-catalog-page-prev aria-label="Попередня група карток">←</button>
+      <span data-catalog-page-label>1 / 1</span>
+      <button type="button" data-catalog-page-next aria-label="Наступна група карток">→</button>
+    </nav>
+  </div>
+
+  <div class="catalog__live visually-hidden" aria-live="polite" data-catalog-live></div>
+</section>
+
+<div class="image-lightbox" role="dialog" aria-modal="true" aria-hidden="true" aria-label="Перегляд фотографій" inert data-image-lightbox>
+  <button class="image-lightbox__close" type="button" aria-label="Закрити фото" data-lightbox-close>×</button>
+  <button class="image-lightbox__arrow image-lightbox__arrow--prev" type="button" aria-label="Попереднє фото" data-lightbox-prev>‹</button>
+  <figure class="image-lightbox__figure">
+    <img class="image-lightbox__image" src="" alt="" data-lightbox-image />
+    <figcaption class="image-lightbox__counter" data-lightbox-counter></figcaption>
+  </figure>
+  <button class="image-lightbox__arrow image-lightbox__arrow--next" type="button" aria-label="Наступне фото" data-lightbox-next>›</button>
+</div>

@@ -3,12 +3,13 @@ import { createCatalogPortalAnimation } from '../../animations/catalog-preview-a
 export const initCatalogPreview = () => {
   const section = document.querySelector('[data-catalog-preview]');
   const portal = document.querySelector('[data-catalog-portal]');
+  const catalog = document.querySelector('[data-catalog-shell]');
   if (!section || !portal) return;
 
   const track = section.querySelector('[data-catalog-track]');
   const dots = [...section.querySelectorAll('[data-catalog-dot]')];
   const enterLinks = [...section.querySelectorAll('[data-catalog-enter]')];
-  const backButton = portal.querySelector('[data-catalog-back]');
+  const backButtons = [...portal.querySelectorAll('[data-catalog-back]')];
   const transition = createCatalogPortalAnimation(portal);
   let scrollFrame = 0;
 
@@ -49,6 +50,9 @@ export const initCatalogPreview = () => {
       const entered = await transition.enter({ category: portalCategory, source, trigger: link });
 
       if (entered) {
+        catalog?.dispatchEvent(new CustomEvent('catalog:open', {
+          detail: { mode: link.dataset.catalogTarget },
+        }));
         window.history.pushState(
           { catalogPreview: true, target: link.dataset.catalogTarget },
           '',
@@ -60,6 +64,7 @@ export const initCatalogPreview = () => {
 
   const requestReturn = () => {
     if (!transition.isActive()) return;
+    catalog?.dispatchEvent(new CustomEvent('catalog:hide'));
     if (window.history.state?.catalogPreview) {
       window.history.back();
       return;
@@ -67,12 +72,19 @@ export const initCatalogPreview = () => {
     transition.leave();
   };
 
-  backButton?.addEventListener('click', requestReturn);
+  backButtons.forEach((button) => button.addEventListener('click', requestReturn));
+  catalog?.addEventListener('catalog:request-close', requestReturn);
+  catalog?.addEventListener('catalog:background-change', (event) => {
+    transition.changeCategory(event.detail.category);
+  });
   window.addEventListener('popstate', () => {
-    if (transition.isActive()) transition.leave();
+    if (transition.isActive()) {
+      catalog?.dispatchEvent(new CustomEvent('catalog:hide'));
+      transition.leave();
+    }
   });
   document.addEventListener('keydown', (event) => {
-    if (event.key === 'Escape' && transition.isActive()) requestReturn();
+    if (event.key === 'Escape' && transition.isActive() && !catalog?.classList.contains('catalog--active')) requestReturn();
   });
 
   updateDots();

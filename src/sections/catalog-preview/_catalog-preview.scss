@@ -3,21 +3,34 @@
 
 .catalog-preview {
   position: relative;
+  height: 100vh;
+  height: 100svh;
+  height: 100dvh;
+  min-height: 0;
+  max-height: 100vh;
+  max-height: 100svh;
+  max-height: 100dvh;
   overflow: hidden;
-  padding: 58px 0 72px;
+  padding: calc(#{$header-height-mobile} + 8px) 0 14px;
   background:
     radial-gradient(circle at 50% 0, rgba($color-orange, 0.08), transparent 34%),
     #080706;
 
   &__container {
     position: relative;
+    display: flex;
+    height: 100%;
+    min-height: 0;
+    flex-direction: column;
   }
 
   &__track {
     display: flex;
+    min-height: 0;
+    flex: 1 1 auto;
     overflow-x: auto;
     gap: 12px;
-    padding: 2px 0 12px;
+    padding: 2px 0 8px;
     overscroll-behavior-x: contain;
     scroll-behavior: smooth;
     scroll-snap-type: x mandatory;
@@ -33,7 +46,8 @@
     position: relative;
     display: grid;
     overflow: hidden;
-    min-height: 700px;
+    height: 100%;
+    min-height: 0;
     flex: 0 0 calc(100% - 24px);
     border: 1px solid rgba($color-white, 0.15);
     border-radius: 18px;
@@ -182,7 +196,8 @@
     display: flex;
     width: 100%;
     max-width: 390px;
-    min-height: 700px;
+    height: 100%;
+    min-height: 0;
     flex-direction: column;
     align-items: flex-start;
     padding: 30px 18px 20px;
@@ -209,6 +224,7 @@
     text-transform: uppercase;
 
     span {
+      display: block;
       color: $color-orange;
     }
 
@@ -294,6 +310,7 @@
 
   &__pagination {
     display: flex;
+    flex: 0 0 auto;
     justify-content: center;
     gap: 7px;
     margin-top: 3px;
@@ -313,13 +330,69 @@
     }
   }
 
-  @include from(480px) {
-    padding-top: 66px;
+  @media (max-width: 767px) and (max-height: 700px) {
+    padding: calc(#{$header-height-mobile} + 4px) 0 6px;
 
-    &__scene,
-    &__content {
-      min-height: 720px;
+    &__track {
+      padding-bottom: 4px;
     }
+
+    &__content {
+      padding: 14px 14px 8px;
+    }
+
+    &__eyebrow {
+      margin-bottom: 4px;
+      font-size: 0.58rem;
+    }
+
+    &__title {
+      margin-bottom: 8px;
+      font-size: clamp(1.9rem, 10vw, 2.45rem);
+
+      &::after {
+        margin-top: 8px;
+      }
+    }
+
+    &__description {
+      font-size: 0.74rem;
+      line-height: 1.4;
+    }
+
+    &__benefits {
+      gap: 5px;
+      margin-top: 9px;
+
+      li {
+        gap: 8px;
+        font-size: 0.7rem;
+      }
+
+      svg {
+        width: 21px;
+        height: 21px;
+      }
+    }
+
+    &__actions {
+      gap: 6px;
+      padding-top: 7px;
+    }
+
+    &__button {
+      min-height: 43px;
+      padding: 7px 12px;
+      font-size: 0.64rem;
+    }
+
+    &__pagination {
+      margin-top: 1px;
+    }
+  }
+
+  @include from(480px) {
+    padding-top: calc(#{$header-height-mobile} + 12px);
 
     &__scene {
       flex-basis: calc(100% - 46px);
@@ -339,58 +412,87 @@
   }
 
   @include from(768px) {
-    padding: 84px 0 96px;
+    padding: calc(#{$header-height-tablet} + 8px) 0 12px;
 
     &__track {
       display: grid;
+      min-height: 0;
+      grid-template-rows: repeat(2, minmax(0, 1fr));
       overflow: visible;
-      gap: 16px;
+      gap: 2px;
       padding: 0;
       scroll-snap-type: none;
     }
 
     &__scene,
     &__content {
-      min-height: 660px;
+      height: 100%;
+      min-height: 0;
     }
 
     &__scene {
       width: 100%;
-      border-radius: 20px;
+      border-radius: 14px;
     }
 
     &__content {
-      max-width: 470px;
-      padding: 48px 42px 36px;
+      display: grid;
+      max-width: none;
+      grid-template-areas:
+        "eyebrow benefits"
+        "title benefits"
+        "description actions";
+      grid-template-columns: minmax(0, 1.1fr) minmax(250px, 0.9fr);
+      grid-template-rows: auto auto 1fr;
+      align-items: start;
+      column-gap: 28px;
+      padding: 18px 28px;
+    }
+
+    &__eyebrow {
+      grid-area: eyebrow;
     }
 
     &__title {
+      grid-area: title;
       max-width: none;
-      font-size: clamp(3.35rem, 8vw, 4.7rem);
+      margin-bottom: 10px;
+      font-size: clamp(2.35rem, 5.6vw, 3rem);
+
+      &::after {
+        margin-top: 10px;
+      }
     }
 
     &__description {
+      grid-area: description;
       max-width: 380px;
-      font-size: 0.96rem;
+      font-size: 0.82rem;
     }
 
     &__benefits {
-      gap: 14px;
-      margin-top: 28px;
+      align-self: center;
+      grid-area: benefits;
+      gap: 9px;
+      margin-top: 0;
 
       li {
-        font-size: 0.9rem;
+        font-size: 0.8rem;
       }
     }
 
     &__actions {
-      width: 320px;
+      width: 100%;
+      align-self: end;
+      grid-area: actions;
+      margin-top: 0;
+      padding-top: 12px;
     }
 
     &__button {
-      min-height: 56px;
-      padding-inline: 19px;
-      font-size: 0.78rem;
+      min-height: 50px;
+      padding-inline: 16px;
+      font-size: 0.72rem;
     }
 
     &__button--mobile-general,
@@ -402,8 +504,9 @@
       position: relative;
       z-index: 7;
       display: flex;
+      flex: 0 0 auto;
       width: min(100%, 380px);
-      margin: 20px auto 0;
+      margin: 8px auto 0;
       background: rgba(16, 12, 10, 0.84);
       border-color: rgba($color-orange, 0.5);
     }
@@ -442,28 +545,58 @@
   }
 
   @include from(1024px) {
-    padding: 96px 0 110px;
+    padding: 0;
+
+    &__container {
+      overflow: visible;
+    }
 
     &__track {
+      position: absolute;
+      top: 0;
+      left: 50%;
+      width: 100vw;
+      height: 100%;
       grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 2px;
+      grid-template-rows: minmax(0, 1fr);
+      gap: 0;
+      transform: translateX(-50%);
     }
 
     &__scene,
     &__content {
-      min-height: 760px;
+      height: 100%;
+      min-height: 0;
     }
 
     &__scene {
+      border: 0;
       border-radius: 0;
     }
 
+    &__scene--dry {
+      border-left: 1px solid rgba($color-white, 0.18);
+    }
+
     &__content {
-      max-width: 430px;
-      padding: 50px 30px 36px;
+      display: flex;
+      width: min(100%, calc(#{$container} / 2));
+      max-width: calc(#{$container} / 2);
+      flex-direction: column;
+      align-items: flex-start;
+      padding: calc(#{$header-height-desktop} + 30px) 30px 84px;
+    }
+
+    &__scene--liquid &__content {
+      margin-left: auto;
+    }
+
+    &__scene--dry &__content {
+      margin-right: auto;
     }
 
     &__title {
+      max-width: 100%;
       font-size: clamp(3rem, 4.3vw, 4.1rem);
     }
 
@@ -476,8 +609,25 @@
       font-size: 0.82rem;
     }
 
+    &__actions {
+      width: 320px;
+      margin-top: auto;
+      padding-top: 24px;
+    }
+
+    &__button {
+      min-height: 56px;
+      padding-inline: 19px;
+      font-size: 0.78rem;
+    }
+
     &__general {
-      margin-top: -27px;
+      position: absolute;
+      z-index: 8;
+      bottom: 20px;
+      left: 50%;
+      margin: 0;
+      transform: translateX(-50%);
     }
 
     &__scene--liquid &__layer--middle img {
@@ -508,13 +658,9 @@
   }
 
   @include from(1280px) {
-    &__scene,
     &__content {
-      min-height: 810px;
-    }
-
-    &__content {
-      padding: 62px 42px 44px;
+      padding-right: 42px;
+      padding-left: 42px;
     }
 
     &__title {

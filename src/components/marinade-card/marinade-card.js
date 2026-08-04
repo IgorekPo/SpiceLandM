@@ -15,7 +15,7 @@ const tasteIcons = [
 
 const galleryMarkup = (product) => product.dishImages.map((source, index) => `
   <button class="marinade-gallery__slide" type="button" data-gallery-image="${index}" aria-label="Збільшити фото ${index + 1}: ${product.name}">
-    <img src="${source}" alt="Готова страва з маринадом «${product.name}» — фото ${index + 1}" loading="lazy" />
+    <img src="${source}" alt="Готова страва з маринадом «${product.name}» — фото ${index + 1}" loading="lazy" decoding="async" />
     <span class="marinade-gallery__zoom" aria-hidden="true">⌕</span>
   </button>
 `).join('');
@@ -40,7 +40,7 @@ export const createMarinadeCard = (product) => {
       </div>
       <div class="marinade-card__visual" aria-hidden="true">
         <div class="marinade-card__texture" data-marinade-texture>
-          <img src="${product.textureImage}" alt="" />
+          <img src="${product.textureImage}" alt="" loading="lazy" decoding="async" />
         </div>
         <span class="marinade-card__drop-tail" data-marinade-drop-tail></span>
         <span class="marinade-card__drop-bead" data-marinade-drop-bead></span>
@@ -92,13 +92,7 @@ export const initializeMarinadeCard = (card, product, { lightbox, requestExclusi
   let activeTransition = Promise.resolve();
 
   window.requestAnimationFrame(() => {
-    const bounds = card.getBoundingClientRect();
     card.dataset.closedHeight = String(card.offsetHeight);
-    const fixedWidth = Math.floor(bounds.width);
-    card.style.width = `${fixedWidth}px`;
-    card.style.minWidth = `${fixedWidth}px`;
-    card.style.maxWidth = `${fixedWidth}px`;
-    card.style.flexBasis = `${fixedWidth}px`;
   });
 
   const close = async () => {

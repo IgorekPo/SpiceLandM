@@ -2,6 +2,7 @@ const subscribers = new Set();
 let listening = false;
 let frame = 0;
 let latestTilt = { x: 0, y: 0 };
+const TILT_SMOOTHING = 0.16;
 
 export const supportsDeviceTilt = () => typeof window.DeviceOrientationEvent !== 'undefined';
 
@@ -16,9 +17,13 @@ const publishTilt = () => {
 };
 
 const handleOrientation = (event) => {
-  latestTilt = {
+  const nextTilt = {
     x: clamp((event.gamma || 0) / 35),
     y: clamp(((event.beta || 45) - 45) / 35),
+  };
+  latestTilt = {
+    x: latestTilt.x + ((nextTilt.x - latestTilt.x) * TILT_SMOOTHING),
+    y: latestTilt.y + ((nextTilt.y - latestTilt.y) * TILT_SMOOTHING),
   };
   if (!frame) frame = window.requestAnimationFrame(publishTilt);
 };

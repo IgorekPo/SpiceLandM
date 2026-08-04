@@ -1,7 +1,6 @@
 import { createCatalogPortalAnimation } from '../../animations/catalog-preview-animation.js';
-import { deviceTiltNeedsPermission, enableDeviceTilt } from '../../animations/device-tilt.js';
 
-export const initCatalogPreview = () => {
+export const initCatalogPreview = ({ prepareCatalog } = {}) => {
   const section = document.querySelector('[data-catalog-preview]');
   const portal = document.querySelector('[data-catalog-portal]');
   const catalog = document.querySelector('[data-catalog-shell]');
@@ -41,17 +40,19 @@ export const initCatalogPreview = () => {
   }, { passive: true });
 
   enterLinks.forEach((link) => {
+    link.addEventListener('pointerenter', () => prepareCatalog?.(), { once: true, passive: true });
+    link.addEventListener('focus', () => prepareCatalog?.(), { once: true });
     link.addEventListener('click', async (event) => {
       event.preventDefault();
       if (transition.isActive()) return;
 
-      const tiltPermission = deviceTiltNeedsPermission() ? enableDeviceTilt() : Promise.resolve(true);
+      const catalogReady = prepareCatalog?.() || Promise.resolve();
 
       const portalCategory = link.dataset.portalScene;
       const source = link.closest('[data-category-scene]')
         || section.querySelector(`[data-category-scene="${portalCategory}"]`);
       const entered = await transition.enter({ category: portalCategory, source, trigger: link });
-      await tiltPermission;
+      await catalogReady;
 
       if (entered) {
         catalog?.dispatchEvent(new CustomEvent('catalog:open', {

@@ -5,8 +5,8 @@ export const animateCatalogFilter = (grid, render) => new Promise((resolve) => {
   gsap.to(cards, {
     scale: 0.96,
     autoAlpha: 0,
-    duration: 0.22,
-    stagger: 0.025,
+    duration: 0.16,
+    stagger: 0.012,
     ease: 'power2.in',
     onComplete: () => {
       render();
@@ -15,8 +15,8 @@ export const animateCatalogFilter = (grid, render) => new Promise((resolve) => {
         {
           scale: 1,
           autoAlpha: 1,
-          duration: 0.38,
-          stagger: 0.035,
+          duration: 0.26,
+          stagger: 0.018,
           ease: 'power2.out',
           onComplete: resolve,
         },

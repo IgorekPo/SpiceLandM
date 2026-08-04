@@ -12,14 +12,20 @@ import { initSuccessModal } from '../components/success-modal/success-modal.js';
 import { initCartModal } from '../components/cart-modal/cart-modal.js';
 import { initHero } from '../sections/hero/hero.js';
 import { initCatalogPreview } from '../sections/catalog-preview/catalog-preview.js';
-import { initializeCatalog } from '../sections/catalog/catalog.js';
+
+let catalogPreparation = null;
+const prepareCatalog = () => {
+  if (!catalogPreparation) {
+    catalogPreparation = import('../sections/catalog/catalog.js')
+      .then(({ initializeCatalog }) => initializeCatalog());
+  }
+  return catalogPreparation;
+};
 
 initHeader();
 initBurgerMenu();
 initHero();
-initializeCatalog();
-initCatalogPreview();
-initCatalogPreviewAnimation();
+initCatalogPreview({ prepareCatalog });
 initSectionScroll();
 
 const successModal = initSuccessModal();
@@ -29,4 +35,5 @@ initCartModal({ openContact: contactModal?.open });
 playIntroAnimation().then(() => {
   initLogoAnimation();
   initHeroParallax();
+  initCatalogPreviewAnimation();
 });

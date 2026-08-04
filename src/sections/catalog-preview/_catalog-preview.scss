@@ -54,143 +54,12 @@
     height: 100%;
     min-height: 0;
     flex: 0 0 calc(100% - 24px);
+    background: #090806;
     border: 1px solid rgba($color-white, 0.15);
     border-radius: 18px;
     isolation: isolate;
     scroll-snap-align: center;
     scroll-snap-stop: always;
-  }
-
-  &__layers,
-  &__layer,
-  &__shade {
-    position: absolute;
-    inset: 0;
-  }
-
-  &__layers {
-    z-index: -1;
-    overflow: hidden;
-    background: #172016;
-  }
-
-  &__layer {
-    .catalog-preview__media {
-      display: block;
-      max-width: none;
-      user-select: none;
-      pointer-events: none;
-    }
-
-    &--far {
-      inset: -4%;
-
-      .catalog-preview__media {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-      }
-    }
-
-    &--middle,
-    &--front {
-      pointer-events: none;
-    }
-  }
-
-  &__scene--liquid &__layer--far .catalog-preview__media {
-    object-position: 48% center;
-  }
-
-  &__scene--liquid &__layer--middle .catalog-preview__media {
-    position: absolute;
-    right: 0;
-    bottom: 28%;
-    width: 110%;
-  }
-
-  &__scene--liquid &__layer--front .catalog-preview__media {
-    position: absolute;
-    right: 0;
-    bottom: 8%;
-    width: 110%;
-  }
-
-  &__scene--dry &__layer--far .catalog-preview__media {
-    object-position: 50% center;
-  }
-
-  &__scene--dry &__layer--middle .catalog-preview__media {
-    position: absolute;
-    right: 0;
-    bottom: 24%;
-    width: 110%;
-  }
-
-  &__scene--dry &__layer--front .catalog-preview__media {
-    position: absolute;
-    right: 0;
-    bottom: 8%;
-    width: 110%;
-  }
-
-  &__shade {
-    z-index: 4;
-    background:
-      linear-gradient(180deg, rgba(0, 0, 0, 0.22), transparent 28%, rgba(0, 0, 0, 0.74) 78%, rgba(0, 0, 0, 0.92)),
-      linear-gradient(90deg, rgba(0, 0, 0, 0.86), rgba(0, 0, 0, 0.54) 58%, rgba(0, 0, 0, 0.14));
-  }
-
-  &__water-shimmer {
-    position: absolute;
-    z-index: 1;
-    right: -10%;
-    bottom: 29%;
-    width: 86%;
-    height: 18%;
-    opacity: 0.18;
-    background: repeating-linear-gradient(176deg, transparent 0 8px, rgba($color-white, 0.72) 9px, transparent 11px 18px);
-    filter: blur(1px);
-    mask-image: linear-gradient(90deg, transparent, #000 22%, #000 78%, transparent);
-    transform: skewX(-12deg);
-    pointer-events: none;
-  }
-
-  &__smoke,
-  .catalog-portal__smoke {
-    position: absolute;
-    z-index: 2;
-    right: 5%;
-    bottom: 54%;
-    width: 60%;
-    height: 32%;
-    pointer-events: none;
-
-    span {
-      position: absolute;
-      bottom: 0;
-      left: 46%;
-      width: 32%;
-      height: 75%;
-      opacity: 0.18;
-      background: radial-gradient(ellipse at 50% 80%, rgba($color-white, 0.52), transparent 68%);
-      border-radius: 50%;
-      filter: blur(12px);
-
-      &:nth-child(2) {
-        bottom: 18%;
-        left: 26%;
-        width: 26%;
-        height: 62%;
-      }
-
-      &:nth-child(3) {
-        bottom: 27%;
-        left: 60%;
-        width: 22%;
-        height: 55%;
-      }
-    }
   }
 
   &__content {
@@ -275,7 +144,7 @@
 
   &__actions {
     display: grid;
-    width: 100%;
+    width: 70%;
     justify-items: center;
     gap: 9px;
     margin-top: auto;
@@ -302,9 +171,10 @@
   }
 
   &__button {
-    width: fit-content;
+    width: 100%;
+    min-width: 0;
     min-height: 50px;
-    padding: 10px 20px;
+    padding: 10px 48px;
     background: rgba(7, 7, 7, 0.52);
     border-color: rgba($color-white, 0.48);
     font-size: 0.7rem;
@@ -389,7 +259,7 @@
 
     &__button {
       min-height: 43px;
-      padding: 7px 20px;
+      padding: 7px 48px;
       font-size: 0.64rem;
     }
 
@@ -493,7 +363,7 @@
       position: absolute;
       bottom: 18px;
       left: 50%;
-      width: min(320px, calc(100% - 56px));
+      width: 30%;
       margin: 0;
       padding: 0;
       transform: translate(-50%, -40px);
@@ -501,7 +371,7 @@
 
     &__button {
       min-height: 50px;
-      padding-inline: 20px;
+      padding-inline: 48px;
       font-size: 0.72rem;
     }
 
@@ -518,8 +388,8 @@
       width: fit-content;
       max-width: calc(100% - 4px);
       margin: 8px auto 0;
-      padding-right: 20px;
-      padding-left: 20px;
+      padding-right: 48px;
+      padding-left: 48px;
       background: rgba(16, 12, 10, 0.84);
       border-color: rgba($color-orange, 0.5);
     }
@@ -528,35 +398,6 @@
       color: $color-orange;
     }
 
-    &__scene--liquid &__layer--middle .catalog-preview__media {
-      right: 0;
-      bottom: 0;
-      width: 84%;
-    }
-
-    &__scene--liquid &__layer--front .catalog-preview__media {
-      right: 0;
-      bottom: -4%;
-      width: 90%;
-    }
-
-    &__scene--dry &__layer--middle .catalog-preview__media {
-      right: 0;
-      bottom: 0;
-      width: 84%;
-    }
-
-    &__scene--dry &__layer--front .catalog-preview__media {
-      right: 0;
-      bottom: -4%;
-      width: 90%;
-    }
-
-    &__shade {
-      background:
-        linear-gradient(180deg, rgba(0, 0, 0, 0.18), transparent 42%, rgba(0, 0, 0, 0.48)),
-        linear-gradient(90deg, rgba(0, 0, 0, 0.88), rgba(0, 0, 0, 0.5) 46%, rgba(0, 0, 0, 0.04) 78%);
-    }
   }
 
   @include from(1024px) {
@@ -589,10 +430,6 @@
       border-radius: 0;
     }
 
-    &__layer {
-      will-change: transform;
-    }
-
     &__scene--dry {
       border-left: 1px solid rgba($color-white, 0.18);
     }
@@ -603,8 +440,8 @@
       max-width: calc(#{$container} / 2);
       grid-template-areas:
         "title eyebrow"
-        "title benefits"
-        "description benefits";
+        "description ."
+        "benefits .";
       grid-template-columns: minmax(0, 1.08fr) minmax(0, 0.92fr);
       grid-template-rows: auto auto 1fr;
       align-items: start;
@@ -649,20 +486,20 @@
 
     &__benefits {
       align-self: flex-start;
-      justify-self: end;
+      justify-self: start;
       grid-area: benefits;
-      max-width: 100%;
-      margin-top: 0;
+      max-width: 340px;
+      margin-top: 8px;
     }
 
     &__actions {
       bottom: 84px;
-      width: 320px;
+      width: 30%;
     }
 
     &__button {
       min-height: 56px;
-      padding-inline: 20px;
+      padding-inline: 48px;
       font-size: 0.78rem;
     }
 
@@ -675,33 +512,6 @@
       transform: translateX(-50%);
     }
 
-    &__scene--liquid &__layer--middle .catalog-preview__media {
-      right: 0;
-      bottom: 15%;
-      width: 100%;
-    }
-
-    &__scene--liquid &__layer--front .catalog-preview__media {
-      right: 0;
-      bottom: -2%;
-      width: 105%;
-    }
-
-    &__scene--dry &__layer--middle .catalog-preview__media {
-      right: 0;
-      bottom: 15%;
-      width: 100%;
-    }
-
-    &__scene--dry &__layer--front .catalog-preview__media {
-      right: 0;
-      bottom: -2%;
-      width: 105%;
-    }
-
-    &__water-shimmer {
-      bottom: 33%;
-    }
   }
 
   @include from(1280px) {
@@ -739,126 +549,15 @@
   clip-path: circle(0% at 50% 50%);
   pointer-events: none;
 
-  &__scene,
-  &__layer {
+  &__scene {
     position: absolute;
     inset: 0;
-  }
-
-  &__scene {
     display: none;
     overflow: hidden;
-    background: #172016;
+    background: #090806;
 
     &--active {
       display: block;
-    }
-  }
-
-  &__layer {
-    .catalog-portal__media {
-      display: block;
-      max-width: none;
-      user-select: none;
-      pointer-events: none;
-    }
-
-    &--far {
-      inset: -5%;
-
-      .catalog-portal__media {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-      }
-    }
-
-    &--middle,
-    &--front {
-      pointer-events: none;
-    }
-  }
-
-  &__scene--liquid &__layer--far .catalog-portal__media,
-  &__scene--dry &__layer--far .catalog-portal__media {
-    object-position: center;
-  }
-
-  &__scene--liquid &__layer--middle .catalog-portal__media {
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
-    object-position: center bottom;
-  }
-
-  &__scene--liquid &__layer--front .catalog-portal__media {
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
-    object-position: center bottom;
-  }
-
-  &__scene--dry &__layer--middle .catalog-portal__media {
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
-    object-position: center bottom;
-  }
-
-  &__scene--dry &__layer--front .catalog-portal__media {
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
-    object-position: center bottom;
-  }
-
-  &__water {
-    position: absolute;
-    z-index: 1;
-    right: 4%;
-    bottom: 24%;
-    width: 70%;
-    height: 20%;
-    opacity: 0.2;
-    background: repeating-linear-gradient(176deg, transparent 0 9px, rgba($color-white, 0.75) 10px, transparent 12px 20px);
-    filter: blur(1px);
-    mask-image: linear-gradient(90deg, transparent, #000 18%, #000 82%, transparent);
-    transform: skewX(-12deg);
-  }
-
-  &__smoke {
-    position: absolute;
-    z-index: 2;
-    right: 24%;
-    bottom: 49%;
-    width: 42%;
-    height: 32%;
-    pointer-events: none;
-
-    span {
-      position: absolute;
-      bottom: 0;
-      left: 46%;
-      width: 32%;
-      height: 75%;
-      opacity: 0.18;
-      background: radial-gradient(ellipse at 50% 80%, rgba($color-white, 0.52), transparent 68%);
-      border-radius: 50%;
-      filter: blur(12px);
-
-      &:nth-child(2) {
-        bottom: 18%;
-        left: 26%;
-        width: 26%;
-        height: 62%;
-      }
-
-      &:nth-child(3) {
-        bottom: 27%;
-        left: 60%;
-        width: 22%;
-        height: 55%;
-      }
     }
   }
 
@@ -889,44 +588,30 @@
   }
 
   @include from(768px) {
-    &__scene--liquid &__layer--middle .catalog-portal__media,
-    &__scene--liquid &__layer--front .catalog-portal__media,
-    &__scene--dry &__layer--middle .catalog-portal__media,
-    &__scene--dry &__layer--front .catalog-portal__media {
-      width: 112%;
-      height: 112%;
-      margin: -6%;
-    }
-
     &__back {
       top: 24px;
       left: 18px;
     }
   }
-
-  @include from(1024px) {
-    &__layer {
-      will-change: transform;
-    }
-
-    &__scene--liquid &__layer--middle .catalog-portal__media,
-    &__scene--liquid &__layer--front .catalog-portal__media,
-    &__scene--dry &__layer--middle .catalog-portal__media,
-    &__scene--dry &__layer--front .catalog-portal__media {
-      width: 100%;
-      height: 100%;
-      margin: 0;
-      object-fit: cover;
-      object-position: center bottom;
-    }
-  }
 }
 
-@media (hover: none), (pointer: coarse) {
-  .catalog-preview__water-shimmer,
-  .catalog-preview__smoke,
-  .catalog-portal__water,
-  .catalog-portal__smoke {
-    display: none;
+@media (max-width: 1023px), (hover: none), (pointer: coarse) {
+  .catalog-portal {
+    bottom: auto;
+    height: 100svh;
+    clip-path: none;
+    transition: opacity 400ms ease, visibility 0s linear 420ms;
+
+    &--touch-visible {
+      visibility: visible;
+      opacity: 1;
+      transition-delay: 0s;
+      pointer-events: auto;
+    }
+
+    &__scene {
+      transition: opacity 360ms ease;
+    }
+
   }
 }

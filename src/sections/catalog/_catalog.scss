@@ -42,8 +42,14 @@
     overflow-x: hidden;
     overflow-y: auto;
     padding: calc(#{$header-height-mobile} + 12px) 2px 20px;
-    scrollbar-gutter: stable;
+    scrollbar-gutter: auto;
     scrollbar-color: rgba($color-orange, 0.55) transparent;
+    touch-action: pan-y;
+
+    &--swiping {
+      cursor: grabbing;
+      user-select: none;
+    }
   }
 
   &__header {
@@ -119,13 +125,18 @@
     align-items: flex-start;
     gap: 10px;
     overflow-x: auto;
-    padding: 2px 15vw 14px;
+    padding: 2px calc((100% - min(79vw, 610px)) / 2) 14px;
     overscroll-behavior-x: contain;
     scroll-snap-type: x mandatory;
     scrollbar-width: none;
 
     &::-webkit-scrollbar {
       display: none;
+    }
+
+    &:focus-visible {
+      outline: 2px solid rgba($color-orange, 0.9);
+      outline-offset: 3px;
     }
   }
 
@@ -145,10 +156,11 @@
     &__content {
       grid-column: 2;
       padding: calc(#{$header-height-tablet} + 12px) 14px 18px;
+      scrollbar-gutter: stable;
     }
 
     &__header {
-      grid-template-columns: 1fr auto;
+      grid-template-columns: minmax(0, 1fr) auto auto;
       padding: 10px 14px;
     }
 
@@ -164,7 +176,14 @@
       row-gap: 240px;
       overflow: visible;
       padding: 0;
+      cursor: grab;
       scroll-snap-type: none;
+      touch-action: pan-y;
+
+      &--dragging {
+        cursor: grabbing;
+        user-select: none;
+      }
     }
   }
 

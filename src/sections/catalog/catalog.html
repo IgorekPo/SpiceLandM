@@ -43,13 +43,18 @@
         <h1 class="catalog__title" data-catalog-title>Каталог маринадів</h1>
         <p class="catalog__count" data-catalog-count></p>
       </div>
+      <nav class="catalog-pagination" aria-label="Групи маринадів" data-catalog-pagination hidden>
+        <button type="button" data-catalog-page-prev aria-label="Попередня група маринадів">←</button>
+        <span data-catalog-page-label aria-live="polite">1 / 1</span>
+        <button type="button" data-catalog-page-next aria-label="Наступна група маринадів">→</button>
+      </nav>
       <button class="catalog__cart" type="button" aria-label="Відкрити кошик" data-cart-open>
         <span aria-hidden="true">🛒</span>
         <strong data-cart-count>0</strong>
       </button>
     </header>
 
-    <div class="catalog__grid" data-catalog-grid aria-live="polite"></div>
+    <div class="catalog__grid" data-catalog-grid aria-live="polite" tabindex="0" aria-label="Картки маринадів"></div>
     <p class="catalog__empty" data-catalog-empty hidden>За вибраними параметрами маринадів не знайдено.</p>
 
   </div>

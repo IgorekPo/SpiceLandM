@@ -8,7 +8,6 @@ SpiceLandM/
 ├── src/
 │   ├── assets/
 │   │   ├── images/
-│   │   │   ├── catalog-preview/ # шесть WebP-слоёв двух сцен
 │   │   │   ├── marinades/       # текстуры рідких і сухих маринадів
 │   │   │   └── dishes/          # фото готових страв для галерей
 │   │   └── logos/

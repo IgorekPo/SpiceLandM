@@ -1,5 +1,7 @@
 import { gsap } from 'gsap';
 
+export const CARD_TRANSITION_DURATION = 0.56;
+
 export const expandCard = (card, dropTimeline) => new Promise((resolve) => {
   const expandable = card.querySelector('[data-card-expandable]');
   const gallery = card.querySelector('[data-marinade-gallery]');
@@ -15,6 +17,7 @@ export const expandCard = (card, dropTimeline) => new Promise((resolve) => {
   gsap.set(card, { height: 'auto' });
   const endHeight = card.offsetHeight;
   gsap.set(card, { height: startHeight });
+  dropTimeline?.restart();
 
   const timeline = gsap.timeline({
     onComplete: () => {
@@ -24,14 +27,13 @@ export const expandCard = (card, dropTimeline) => new Promise((resolve) => {
   });
 
   timeline
-    .to(card, { height: endHeight, duration: 0.52, ease: 'power3.inOut' }, 0)
-    .call(() => dropTimeline?.restart(), null, 0.04)
+    .to(card, { height: endHeight, duration: CARD_TRANSITION_DURATION, ease: 'power3.inOut' }, 0)
     .fromTo(gallery,
       { y: 8, autoAlpha: 0, clipPath: 'inset(0 0 18% 0)' },
-      { y: 0, autoAlpha: 1, clipPath: 'inset(0 0 0% 0)', duration: 0.46, ease: 'power2.out' },
-      0.04,
+      { y: 0, autoAlpha: 1, clipPath: 'inset(0 0 0% 0)', duration: CARD_TRANSITION_DURATION, ease: 'power2.out' },
+      0,
     )
-    .fromTo(info, { y: 8, autoAlpha: 0 }, { y: 0, autoAlpha: 1, duration: 0.46, ease: 'power2.out' }, 0.04);
+    .fromTo(info, { y: 8, autoAlpha: 0 }, { y: 0, autoAlpha: 1, duration: CARD_TRANSITION_DURATION, ease: 'power2.out' }, 0);
 });
 
 export const collapseCard = (card, dropTimeline) => new Promise((resolve) => {
@@ -46,6 +48,7 @@ export const collapseCard = (card, dropTimeline) => new Promise((resolve) => {
   const startHeight = card.offsetHeight;
   const closedHeight = Number(card.dataset.closedHeight) || 286;
   gsap.set(card, { height: startHeight });
+  dropTimeline?.reverse();
 
   gsap.timeline({
     onComplete: () => {
@@ -58,6 +61,5 @@ export const collapseCard = (card, dropTimeline) => new Promise((resolve) => {
   })
     .to(info, { y: 7, autoAlpha: 0, duration: 0.3, ease: 'power2.in' }, 0)
     .to(gallery, { y: 7, autoAlpha: 0, clipPath: 'inset(0 0 18% 0)', duration: 0.3, ease: 'power2.in' }, 0)
-    .call(() => dropTimeline?.reverse(), null, 0.02)
-    .to(card, { height: closedHeight, duration: 0.46, ease: 'power3.inOut' }, 0);
+    .to(card, { height: closedHeight, duration: CARD_TRANSITION_DURATION, ease: 'power3.inOut' }, 0);
 });

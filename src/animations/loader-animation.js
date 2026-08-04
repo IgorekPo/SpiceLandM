@@ -1,7 +1,7 @@
 import { gsap } from 'gsap';
-import heroFarUrl from '../assets/images/hero-layer-far.png?url';
-import heroMiddleUrl from '../assets/images/hero-layer-middle.png?url';
-import heroFrontUrl from '../assets/images/hero-layer-front.png?url';
+import heroFarUrl from '../assets/images/hero-layer-far.webp?url';
+import heroMiddleUrl from '../assets/images/hero-layer-middle.webp?url';
+import heroFrontUrl from '../assets/images/hero-layer-front.webp?url';
 import logoUrl from '../assets/logos/logo.svg?url';
 
 const assetPaths = [

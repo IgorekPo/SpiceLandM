@@ -13,11 +13,18 @@ const modeMeta = {
   all: { title: 'Загальний каталог маринадів', opposite: 'Перейти до рідких маринадів', next: 'liquid' },
 };
 
+const getCatalogLayout = () => {
+  if (window.innerWidth >= 1024) return { name: 'desktop', pageSize: 6 };
+  if (window.innerWidth >= 768) return { name: 'tablet', pageSize: 4 };
+  return { name: 'mobile', pageSize: Number.POSITIVE_INFINITY };
+};
+
 export const initializeCatalog = () => {
   const catalog = document.querySelector('[data-catalog-shell]');
   if (!catalog) return;
 
   const grid = catalog.querySelector('[data-catalog-grid]');
+  const content = catalog.querySelector('.catalog__content');
   const title = catalog.querySelector('[data-catalog-title]');
   const count = catalog.querySelector('[data-catalog-count]');
   const empty = catalog.querySelector('[data-catalog-empty]');
@@ -28,13 +35,22 @@ export const initializeCatalog = () => {
   const drawerClosers = catalog.querySelectorAll('[data-catalog-drawer-close]');
   const home = catalog.querySelector('[data-catalog-home]');
   const opposite = catalog.querySelector('[data-catalog-opposite]');
+  const previousPage = catalog.querySelector('[data-catalog-page-prev]');
+  const nextPage = catalog.querySelector('[data-catalog-page-next]');
+  const pageLabel = catalog.querySelector('[data-catalog-page-label]');
+  const pagination = catalog.querySelector('[data-catalog-pagination]');
   const cartCount = catalog.querySelector('[data-cart-count]');
   const lightbox = initializeImageLightbox();
 
   let mode = 'liquid';
+  let page = 0;
+  let layout = getCatalogLayout();
   let filteredProducts = [];
   let currentCardClose = null;
   let resizeFrame = 0;
+  let pageAnimating = false;
+  let pointerGesture = null;
+  let mobileSwipeGesture = null;
 
   const announce = (message) => {
     live.textContent = '';
@@ -57,11 +73,24 @@ export const initializeCatalog = () => {
     currentCardClose = newClose;
   };
 
+  const getPageCount = () => (
+    Number.isFinite(layout.pageSize)
+      ? Math.max(1, Math.ceil(filteredProducts.length / layout.pageSize))
+      : 1
+  );
+
+  const getVisibleProducts = () => {
+    if (!Number.isFinite(layout.pageSize)) return filteredProducts;
+    return filteredProducts.slice(page * layout.pageSize, (page + 1) * layout.pageSize);
+  };
+
   const render = () => {
     currentCardClose = null;
     grid.innerHTML = '';
+    const pageCount = getPageCount();
+    page = Math.min(page, pageCount - 1);
 
-    filteredProducts.forEach((product) => {
+    getVisibleProducts().forEach((product) => {
       const card = createMarinadeCard(product);
       grid.append(card);
       initializeMarinadeCard(card, product, { lightbox, requestExclusiveOpen, announce });
@@ -69,6 +98,24 @@ export const initializeCatalog = () => {
 
     empty.hidden = filteredProducts.length > 0;
     count.textContent = `${filteredProducts.length} ${filteredProducts.length === 1 ? 'маринад' : 'маринадів'}`;
+    pageLabel.textContent = `${page + 1} / ${pageCount}`;
+    previousPage.disabled = page === 0;
+    nextPage.disabled = page >= pageCount - 1;
+    pagination.hidden = layout.name === 'mobile' || pageCount <= 1;
+    if (layout.name === 'mobile') grid.scrollLeft = 0;
+  };
+
+  const changePage = async (nextPageIndex) => {
+    if (pageAnimating || layout.name === 'mobile') return;
+    const targetPage = Math.max(0, Math.min(nextPageIndex, getPageCount() - 1));
+    if (targetPage === page) return;
+
+    pageAnimating = true;
+    await closeExpandedCard();
+    page = targetPage;
+    await animateCatalogFilter(grid, render);
+    announce(`Група маринадів ${page + 1} з ${getPageCount()}.`);
+    pageAnimating = false;
   };
 
   const filterProducts = ({ types = [mode], colors = [], suitableFor = [] }) => {
@@ -91,6 +138,7 @@ export const initializeCatalog = () => {
 
   const setMode = (nextMode, { animate = false, updateBackground = false } = {}) => {
     mode = modeMeta[nextMode] ? nextMode : 'liquid';
+    page = 0;
     syncModeControls();
     filteredProducts = filterProducts({ types: [mode] });
     const renderMode = () => render();
@@ -138,6 +186,7 @@ export const initializeCatalog = () => {
       await closeExpandedCard();
       const requestedMode = filters.types[0] || mode;
       mode = modeMeta[requestedMode] ? requestedMode : mode;
+      page = 0;
       syncModeControls();
       filteredProducts = filterProducts(filters);
       animateCatalogFilter(grid, render);
@@ -161,6 +210,8 @@ export const initializeCatalog = () => {
 
   drawerOpen.addEventListener('click', openDrawer);
   drawerClosers.forEach((button) => button.addEventListener('click', closeDrawer));
+  previousPage.addEventListener('click', () => changePage(page - 1));
+  nextPage.addEventListener('click', () => changePage(page + 1));
   home.addEventListener('click', () => {
     closeDrawer();
     catalog.dispatchEvent(new CustomEvent('catalog:request-close', { bubbles: true }));
@@ -171,11 +222,100 @@ export const initializeCatalog = () => {
     setMode(opposite.dataset.nextMode, { animate: true, updateBackground: true });
     closeDrawer();
   });
+  grid.addEventListener('keydown', (event) => {
+    if (event.target !== grid || layout.name === 'mobile') return;
+    if (event.key === 'ArrowLeft') {
+      event.preventDefault();
+      changePage(page - 1);
+    }
+    if (event.key === 'ArrowRight') {
+      event.preventDefault();
+      changePage(page + 1);
+    }
+  });
+  grid.addEventListener('pointerdown', (event) => {
+    if (layout.name === 'mobile' || pageAnimating || event.button !== 0) return;
+    if (event.target.closest('button, a, input, .marinade-card--expanded')) return;
+    pointerGesture = {
+      id: event.pointerId,
+      startX: event.clientX,
+      startY: event.clientY,
+    };
+    grid.classList.add('catalog__grid--dragging');
+    grid.setPointerCapture?.(event.pointerId);
+    if (event.pointerType === 'mouse') event.preventDefault();
+  });
+  const finishPointerGesture = (event) => {
+    if (!pointerGesture || pointerGesture.id !== event.pointerId) return;
+    const distanceX = event.clientX - pointerGesture.startX;
+    const distanceY = event.clientY - pointerGesture.startY;
+    pointerGesture = null;
+    grid.classList.remove('catalog__grid--dragging');
+    if (grid.hasPointerCapture?.(event.pointerId)) grid.releasePointerCapture(event.pointerId);
+    if (Math.abs(distanceX) < 48 || Math.abs(distanceX) <= Math.abs(distanceY) * 1.15) return;
+    changePage(page + (distanceX < 0 ? 1 : -1));
+  };
+  grid.addEventListener('pointerup', finishPointerGesture);
+  grid.addEventListener('pointercancel', (event) => {
+    if (!pointerGesture || pointerGesture.id !== event.pointerId) return;
+    pointerGesture = null;
+    grid.classList.remove('catalog__grid--dragging');
+  });
+  content.addEventListener('pointerdown', (event) => {
+    if (layout.name !== 'mobile' || event.button !== 0) return;
+    if (event.target.closest('button, a, input, label, select, textarea, [data-catalog-sidebar]')) return;
+    mobileSwipeGesture = {
+      id: event.pointerId,
+      startX: event.clientX,
+      startY: event.clientY,
+      startScrollLeft: grid.scrollLeft,
+      horizontal: false,
+    };
+    content.setPointerCapture?.(event.pointerId);
+  });
+  content.addEventListener('pointermove', (event) => {
+    if (!mobileSwipeGesture || mobileSwipeGesture.id !== event.pointerId || layout.name !== 'mobile') return;
+    const distanceX = event.clientX - mobileSwipeGesture.startX;
+    const distanceY = event.clientY - mobileSwipeGesture.startY;
+
+    if (!mobileSwipeGesture.horizontal) {
+      if (Math.abs(distanceX) < 8) return;
+      if (Math.abs(distanceX) <= Math.abs(distanceY) * 1.1) return;
+      mobileSwipeGesture.horizontal = true;
+      content.classList.add('catalog__content--swiping');
+    }
+
+    event.preventDefault();
+    grid.scrollLeft = mobileSwipeGesture.startScrollLeft - distanceX;
+  }, { passive: false });
+  const finishMobileSwipe = (event) => {
+    if (!mobileSwipeGesture || mobileSwipeGesture.id !== event.pointerId) return;
+    const wasHorizontal = mobileSwipeGesture.horizontal;
+    mobileSwipeGesture = null;
+    content.classList.remove('catalog__content--swiping');
+    if (content.hasPointerCapture?.(event.pointerId)) content.releasePointerCapture(event.pointerId);
+    if (!wasHorizontal) return;
+
+    const cards = [...grid.querySelectorAll('.marinade-card')];
+    const nearestTarget = cards.reduce((closest, card) => {
+      const target = card.offsetLeft - ((grid.clientWidth - card.offsetWidth) / 2);
+      const distance = Math.abs(target - grid.scrollLeft);
+      return !closest || distance < closest.distance ? { target, distance } : closest;
+    }, null)?.target;
+    if (Number.isFinite(nearestTarget)) grid.scrollTo({ left: nearestTarget, behavior: 'smooth' });
+  };
+  content.addEventListener('pointerup', finishMobileSwipe);
+  content.addEventListener('pointercancel', finishMobileSwipe);
   window.addEventListener('cart:updated', (event) => updateCart(event.detail));
   window.addEventListener('resize', () => {
     if (resizeFrame) return;
-    resizeFrame = window.requestAnimationFrame(() => {
+    resizeFrame = window.requestAnimationFrame(async () => {
       resizeFrame = 0;
+      const nextLayout = getCatalogLayout();
+      if (nextLayout.name === layout.name) return;
+      await closeExpandedCard();
+      layout = nextLayout;
+      page = 0;
       render();
     });
   }, { passive: true });

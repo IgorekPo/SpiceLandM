@@ -2,8 +2,6 @@ import liquidTexture from '../assets/images/marinades/red-texture.webp';
 import dryTexture from '../assets/images/marinades/dry-texture.webp';
 import liquidDish from '../assets/images/dishes/liquid-skewers.webp';
 import dryDish from '../assets/images/dishes/dry-grill.webp';
-import liquidScene from '../assets/images/catalog-preview/liquid-front.webp';
-import dryScene from '../assets/images/catalog-preview/dry-front.webp';
 
 const colorMeta = {
   red: { label: 'Червоний', icon: '●' },
@@ -66,8 +64,8 @@ const makeProduct = ([name, color, tastes, suitableFor], index, type) => {
     suitableFor,
     textureImage: isLiquid ? liquidTexture : dryTexture,
     dishImages: isLiquid
-      ? [liquidDish, liquidScene, dryDish]
-      : [dryDish, dryScene, liquidDish],
+      ? [liquidDish, dryDish, liquidDish]
+      : [dryDish, liquidDish, dryDish],
     shortDescription: `${name} створює виразний, збалансований смак і допомагає зберегти природну соковитість продукту. Найкраще підходить для ${destinations}.`,
     composition: isLiquid
       ? 'Вода, соняшникова олія, натуральні спеції, сіль, часник, трави та екстракти прянощів.'

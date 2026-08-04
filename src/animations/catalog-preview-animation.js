@@ -118,6 +118,7 @@ export const createCatalogPortalAnimation = (portal) => {
   const portalScenes = [...portal.querySelectorAll('[data-portal-category]')];
   const backButton = portal.querySelector('[data-catalog-back]');
   const portalAmbientTweens = [];
+  const pointerParallaxEnabled = window.matchMedia('(min-width: 1024px) and (pointer: fine)').matches;
   let activeSource = null;
   let activeTrigger = null;
   let activePortalScene = null;
@@ -125,6 +126,56 @@ export const createCatalogPortalAnimation = (portal) => {
   let animating = false;
 
   if (!prefersReducedMotion()) {
+    portalScenes.forEach((scene) => {
+      const category = scene.dataset.portalCategory;
+      const farMedia = scene.querySelector('.catalog-portal__layer--far .catalog-portal__media');
+      const middleMedia = scene.querySelector('.catalog-portal__layer--middle .catalog-portal__media');
+      const frontMedia = scene.querySelector('.catalog-portal__layer--front .catalog-portal__media');
+
+      if (farMedia) {
+        portalAmbientTweens.push({
+          category,
+          tween: gsap.to(farMedia, {
+            xPercent: 0.65,
+            yPercent: -0.3,
+            duration: 8.5,
+            repeat: -1,
+            yoyo: true,
+            ease: 'sine.inOut',
+            paused: true,
+          }),
+        });
+      }
+
+      if (middleMedia) {
+        portalAmbientTweens.push({
+          category,
+          tween: gsap.to(middleMedia, {
+            yPercent: -0.65,
+            duration: 6.4,
+            repeat: -1,
+            yoyo: true,
+            ease: 'sine.inOut',
+            paused: true,
+          }),
+        });
+      }
+
+      if (frontMedia) {
+        portalAmbientTweens.push({
+          category,
+          tween: gsap.to(frontMedia, {
+            yPercent: 0.45,
+            duration: 5.2,
+            repeat: -1,
+            yoyo: true,
+            ease: 'sine.inOut',
+            paused: true,
+          }),
+        });
+      }
+    });
+
     const portalShimmer = portal.querySelector('[data-portal-category="liquid"] [data-water-shimmer]');
     if (portalShimmer) {
       portalAmbientTweens.push({
@@ -165,11 +216,44 @@ export const createCatalogPortalAnimation = (portal) => {
       scene.setAttribute('aria-hidden', String(!selected));
     });
     activePortalScene = portalScenes.find((scene) => scene.dataset.portalCategory === category) || null;
+    gsap.set(portal.querySelectorAll('[data-portal-layer]'), { x: 0, y: 0 });
     portalAmbientTweens.forEach(({ category: tweenCategory, tween }) => {
       if (tweenCategory === category) tween.play();
       else tween.pause(0);
     });
   };
+
+  const movePortalLayers = (event) => {
+    if (!pointerParallaxEnabled || !activePortalScene || !active || animating) return;
+    const x = ((event.clientX / window.innerWidth) - 0.5) * 2;
+    const y = ((event.clientY / window.innerHeight) - 0.5) * 2;
+
+    activePortalScene.querySelectorAll('[data-portal-layer]').forEach((layer) => {
+      const strength = Number(layer.dataset.portalLayer) || 0.5;
+      gsap.to(layer, {
+        x: x * 12 * strength,
+        y: y * 8 * strength,
+        duration: 0.6,
+        overwrite: 'auto',
+        ease: 'power2.out',
+        force3D: true,
+      });
+    });
+  };
+
+  const resetPortalLayers = () => {
+    if (!activePortalScene) return;
+    gsap.to(activePortalScene.querySelectorAll('[data-portal-layer]'), {
+      x: 0,
+      y: 0,
+      duration: 0.65,
+      overwrite: 'auto',
+      ease: 'power2.out',
+    });
+  };
+
+  portal.addEventListener('pointermove', movePortalLayers);
+  portal.addEventListener('pointerleave', resetPortalLayers);
 
   const enter = ({ category, source, trigger }) => new Promise((resolve) => {
     if (active || animating || !source) {
@@ -249,6 +333,7 @@ export const createCatalogPortalAnimation = (portal) => {
       animating = false;
       activePortalScene = null;
       portalAmbientTweens.forEach(({ tween }) => tween.pause(0));
+      gsap.set(portal.querySelectorAll('[data-portal-layer]'), { x: 0, y: 0 });
       activeSource = null;
       activeTrigger?.focus({ preventScroll: true });
       activeTrigger = null;

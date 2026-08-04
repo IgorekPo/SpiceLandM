@@ -101,16 +101,16 @@
 
   &__scene--liquid &__layer--middle .catalog-preview__media {
     position: absolute;
-    right: -27.5%;
-    bottom: 19%;
-    width: 155%;
+    right: 0;
+    bottom: 28%;
+    width: 110%;
   }
 
   &__scene--liquid &__layer--front .catalog-preview__media {
     position: absolute;
-    right: -30%;
-    bottom: -2%;
-    width: 160%;
+    right: 0;
+    bottom: 8%;
+    width: 110%;
   }
 
   &__scene--dry &__layer--far .catalog-preview__media {
@@ -119,16 +119,16 @@
 
   &__scene--dry &__layer--middle .catalog-preview__media {
     position: absolute;
-    right: -27.5%;
-    bottom: 17%;
-    width: 155%;
+    right: 0;
+    bottom: 24%;
+    width: 110%;
   }
 
   &__scene--dry &__layer--front .catalog-preview__media {
     position: absolute;
-    right: -30%;
-    bottom: -2%;
-    width: 160%;
+    right: 0;
+    bottom: 8%;
+    width: 110%;
   }
 
   &__shade {
@@ -516,27 +516,27 @@
     }
 
     &__scene--liquid &__layer--middle .catalog-preview__media {
-      right: -2.5%;
-      bottom: -2%;
-      width: 105%;
+      right: 0;
+      bottom: 0;
+      width: 84%;
     }
 
     &__scene--liquid &__layer--front .catalog-preview__media {
-      right: -7.5%;
-      bottom: -8%;
-      width: 115%;
+      right: 0;
+      bottom: -4%;
+      width: 90%;
     }
 
     &__scene--dry &__layer--middle .catalog-preview__media {
-      right: -2.5%;
-      bottom: -1%;
-      width: 105%;
+      right: 0;
+      bottom: 0;
+      width: 84%;
     }
 
     &__scene--dry &__layer--front .catalog-preview__media {
-      right: -7.5%;
-      bottom: -8%;
-      width: 115%;
+      right: 0;
+      bottom: -4%;
+      width: 90%;
     }
 
     &__shade {
@@ -633,27 +633,27 @@
     }
 
     &__scene--liquid &__layer--middle .catalog-preview__media {
-      right: -12.5%;
-      bottom: 17%;
-      width: 125%;
+      right: 0;
+      bottom: 15%;
+      width: 100%;
     }
 
     &__scene--liquid &__layer--front .catalog-preview__media {
-      right: -20%;
-      bottom: -3%;
-      width: 140%;
+      right: 0;
+      bottom: -2%;
+      width: 105%;
     }
 
     &__scene--dry &__layer--middle .catalog-preview__media {
-      right: -12.5%;
-      bottom: 17%;
-      width: 125%;
+      right: 0;
+      bottom: 15%;
+      width: 100%;
     }
 
     &__scene--dry &__layer--front .catalog-preview__media {
-      right: -20%;
-      bottom: -3%;
-      width: 140%;
+      right: 0;
+      bottom: -2%;
+      width: 105%;
     }
 
     &__water-shimmer {
@@ -685,6 +685,10 @@
   position: fixed;
   z-index: 180;
   inset: 0;
+  width: 100%;
+  height: 100vh;
+  height: 100svh;
+  height: 100dvh;
   visibility: hidden;
   overflow: hidden;
   opacity: 0;
@@ -740,31 +744,31 @@
   }
 
   &__scene--liquid &__layer--middle .catalog-portal__media {
-    position: absolute;
-    right: -2%;
-    bottom: -5%;
-    width: 104vw;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    object-position: center bottom;
   }
 
   &__scene--liquid &__layer--front .catalog-portal__media {
-    position: absolute;
-    right: -5%;
-    bottom: -8%;
-    width: 110vw;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    object-position: center bottom;
   }
 
   &__scene--dry &__layer--middle .catalog-portal__media {
-    position: absolute;
-    right: -2%;
-    bottom: -5%;
-    width: 104vw;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    object-position: center bottom;
   }
 
   &__scene--dry &__layer--front .catalog-portal__media {
-    position: absolute;
-    right: -5%;
-    bottom: -8%;
-    width: 110vw;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    object-position: center bottom;
   }
 
   &__water {

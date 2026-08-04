@@ -1,4 +1,5 @@
 import { createCatalogPortalAnimation } from '../../animations/catalog-preview-animation.js';
+import { deviceTiltNeedsPermission, enableDeviceTilt } from '../../animations/device-tilt.js';
 
 export const initCatalogPreview = () => {
   const section = document.querySelector('[data-catalog-preview]');
@@ -44,10 +45,13 @@ export const initCatalogPreview = () => {
       event.preventDefault();
       if (transition.isActive()) return;
 
+      const tiltPermission = deviceTiltNeedsPermission() ? enableDeviceTilt() : Promise.resolve(true);
+
       const portalCategory = link.dataset.portalScene;
       const source = link.closest('[data-category-scene]')
         || section.querySelector(`[data-category-scene="${portalCategory}"]`);
       const entered = await transition.enter({ category: portalCategory, source, trigger: link });
+      await tiltPermission;
 
       if (entered) {
         catalog?.dispatchEvent(new CustomEvent('catalog:open', {

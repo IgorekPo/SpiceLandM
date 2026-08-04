@@ -9,9 +9,9 @@ export const expandCard = (card, dropTimeline) => new Promise((resolve) => {
     return;
   }
 
+  const startHeight = card.offsetHeight;
   expandable.hidden = false;
   card.classList.add('marinade-card--expanded');
-  const startHeight = card.offsetHeight;
   gsap.set(card, { height: 'auto' });
   const endHeight = card.offsetHeight;
   gsap.set(card, { height: startHeight });
@@ -24,14 +24,14 @@ export const expandCard = (card, dropTimeline) => new Promise((resolve) => {
   });
 
   timeline
-    .to(card, { height: endHeight, duration: 0.58, ease: 'power3.inOut' })
-    .call(() => dropTimeline?.restart(), null, 0.08)
+    .to(card, { height: endHeight, duration: 0.52, ease: 'power3.inOut' }, 0)
+    .call(() => dropTimeline?.restart(), null, 0.04)
     .fromTo(gallery,
-      { autoAlpha: 0, clipPath: 'inset(0 0 100% 0)' },
-      { autoAlpha: 1, clipPath: 'inset(0 0 0% 0)', duration: 0.42, ease: 'power2.out' },
-      0.56,
+      { y: 8, autoAlpha: 0, clipPath: 'inset(0 0 18% 0)' },
+      { y: 0, autoAlpha: 1, clipPath: 'inset(0 0 0% 0)', duration: 0.46, ease: 'power2.out' },
+      0.04,
     )
-    .fromTo(info, { y: 12, autoAlpha: 0 }, { y: 0, autoAlpha: 1, duration: 0.36 }, 0.72);
+    .fromTo(info, { y: 8, autoAlpha: 0 }, { y: 0, autoAlpha: 1, duration: 0.46, ease: 'power2.out' }, 0.04);
 });
 
 export const collapseCard = (card, dropTimeline) => new Promise((resolve) => {
@@ -56,8 +56,8 @@ export const collapseCard = (card, dropTimeline) => new Promise((resolve) => {
       resolve();
     },
   })
-    .to(info, { y: 10, autoAlpha: 0, duration: 0.18 }, 0)
-    .to(gallery, { autoAlpha: 0, clipPath: 'inset(0 0 100% 0)', duration: 0.25 }, 0.08)
-    .call(() => dropTimeline?.reverse(), null, 0.08)
-    .to(card, { height: closedHeight, duration: 0.48, ease: 'power3.inOut' }, 0.18);
+    .to(info, { y: 7, autoAlpha: 0, duration: 0.3, ease: 'power2.in' }, 0)
+    .to(gallery, { y: 7, autoAlpha: 0, clipPath: 'inset(0 0 18% 0)', duration: 0.3, ease: 'power2.in' }, 0)
+    .call(() => dropTimeline?.reverse(), null, 0.02)
+    .to(card, { height: closedHeight, duration: 0.46, ease: 'power3.inOut' }, 0);
 });

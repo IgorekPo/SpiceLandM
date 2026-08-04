@@ -12,7 +12,7 @@ SpiceLandM/
 │   │   │   ├── marinades/       # текстуры рідких і сухих маринадів
 │   │   │   └── dishes/          # фото готових страв для галерей
 │   │   └── logos/
-│   ├── animations/        # GSAP-сценарии
+│   ├── animations/        # GSAP-сценарии и общий контроллер device-tilt.js
 │   ├── components/        # независимые UI-компоненты
 │   ├── data/              # единый источник данных товаров
 │   ├── js/                # точка входа JavaScript и store корзины

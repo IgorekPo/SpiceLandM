@@ -44,8 +44,8 @@
 
   &__zoom {
     position: absolute;
-    right: 4px;
-    bottom: 4px;
+    top: 50%;
+    left: 50%;
     display: grid;
     width: 20px;
     height: 20px;
@@ -53,6 +53,8 @@
     background: rgba(0, 0, 0, 0.64);
     border-radius: 50%;
     font-size: 0.72rem;
+    pointer-events: none;
+    transform: translate(-50%, -50%);
   }
 
   &__arrow {

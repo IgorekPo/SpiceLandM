@@ -175,6 +175,14 @@ export const initializeCatalog = () => {
     },
   });
 
+  filterForm.addEventListener('change', async (event) => {
+    const field = event.target;
+    if (field.name !== 'catalog-type' || !catalog.classList.contains('catalog--drawer-open')) return;
+    await closeExpandedCard();
+    setMode(field.value, { animate: true, updateBackground: true });
+    closeDrawer();
+  });
+
   previousPage.addEventListener('click', async () => {
     await closeExpandedCard();
     page = Math.max(0, page - 1);
@@ -191,6 +199,7 @@ export const initializeCatalog = () => {
   opposite.addEventListener('click', async () => {
     await closeExpandedCard();
     setMode(opposite.dataset.nextMode, { animate: true, updateBackground: true });
+    closeDrawer();
   });
   window.addEventListener('cart:updated', (event) => updateCart(event.detail));
   window.addEventListener('resize', () => {
@@ -208,6 +217,11 @@ export const initializeCatalog = () => {
     else catalog.dispatchEvent(new CustomEvent('catalog:request-close', { bubbles: true }));
   });
   document.addEventListener('pointerdown', (event) => {
+    if (catalog.classList.contains('catalog--drawer-open')
+      && !event.target.closest('[data-catalog-sidebar]')
+      && !event.target.closest('[data-catalog-drawer-open]')) {
+      closeDrawer();
+    }
     if (!currentCardClose || !catalog.classList.contains('catalog--active')) return;
     if (event.target.closest('.marinade-card') || event.target.closest('[data-image-lightbox]')) return;
     closeExpandedCard();

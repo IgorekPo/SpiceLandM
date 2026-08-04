@@ -1,4 +1,5 @@
 import { gsap } from 'gsap';
+import { subscribeDeviceTilt } from './device-tilt.js';
 
 const prefersReducedMotion = () => window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 const supportsCatalogAmbientMotion = () => window.matchMedia(
@@ -71,9 +72,25 @@ export const initCatalogPreviewAnimation = () => {
   const contents = [...section.querySelectorAll('[data-catalog-content]')];
   const ambientTweens = supportsCatalogAmbientMotion() ? scenes.flatMap(initSceneAmbientMotion) : [];
   let contentRevealed = false;
+  let sectionVisible = false;
+
+  const moveSceneLayers = (scene, x, y, { xAmplitude = 10, yAmplitude = 8, duration = 0.55 } = {}) => {
+    scene.querySelectorAll('[data-catalog-layer]').forEach((layer) => {
+      const strength = Number(layer.dataset.catalogLayer) || 0.5;
+      gsap.to(layer, {
+        x: x * xAmplitude * strength,
+        y: y * yAmplitude * strength,
+        duration,
+        overwrite: 'auto',
+        ease: 'power2.out',
+        force3D: true,
+      });
+    });
+  };
 
   const observer = new IntersectionObserver((entries) => {
     const visible = entries.some((entry) => entry.isIntersecting);
+    sectionVisible = visible;
     ambientTweens.forEach((tween) => (visible ? tween.play() : tween.pause()));
 
     if (visible && !contentRevealed) {
@@ -87,23 +104,24 @@ export const initCatalogPreviewAnimation = () => {
 
   observer.observe(section);
 
+  if (window.matchMedia('(max-width: 1023px), (hover: none), (pointer: coarse)').matches) {
+    subscribeDeviceTilt(({ x, y }) => {
+      if (!sectionVisible) return;
+      const viewportCenter = window.innerWidth / 2;
+      const activeScene = scenes.reduce((closest, scene) => {
+        const bounds = scene.getBoundingClientRect();
+        const distance = Math.abs((bounds.left + (bounds.width / 2)) - viewportCenter);
+        return !closest || distance < closest.distance ? { scene, distance } : closest;
+      }, null)?.scene;
+      if (activeScene) moveSceneLayers(activeScene, x, y, { xAmplitude: 7, yAmplitude: 5, duration: 0.7 });
+    });
+  }
+
   if (!supportsCatalogAmbientMotion()) return;
 
   scenes.forEach((scene) => {
-    const layers = [...scene.querySelectorAll('[data-catalog-layer]')];
-
     const moveLayers = (x, y) => {
-      layers.forEach((layer) => {
-        const strength = Number(layer.dataset.catalogLayer) || 0.5;
-        gsap.to(layer, {
-          x: x * 10 * strength,
-          y: y * 8 * strength,
-          duration: 0.55,
-          overwrite: 'auto',
-          ease: 'power2.out',
-          force3D: true,
-        });
-      });
+      moveSceneLayers(scene, x, y);
     };
 
     scene.addEventListener('pointermove', (event) => {
@@ -122,6 +140,8 @@ export const createCatalogPortalAnimation = (portal) => {
   const backButton = portal.querySelector('[data-catalog-back]');
   const portalAmbientTweens = [];
   const pointerParallaxEnabled = supportsCatalogAmbientMotion();
+  const tiltParallaxEnabled = !prefersReducedMotion()
+    && window.matchMedia('(max-width: 1023px), (hover: none), (pointer: coarse)').matches;
   let activeSource = null;
   let activeTrigger = null;
   let activePortalScene = null;
@@ -257,22 +277,26 @@ export const createCatalogPortalAnimation = (portal) => {
       .to(nextScene, { autoAlpha: 1, duration: 0.65, ease: 'power2.inOut' }, 0.08);
   });
 
-  const movePortalLayers = (event) => {
-    if (!pointerParallaxEnabled || !activePortalScene || !active || animating) return;
-    const x = ((event.clientX / window.innerWidth) - 0.5) * 2;
-    const y = ((event.clientY / window.innerHeight) - 0.5) * 2;
-
+  const applyPortalLayerMotion = (x, y, { xAmplitude = 12, yAmplitude = 8, duration = 0.6 } = {}) => {
+    if (!activePortalScene || !active || animating) return;
     activePortalScene.querySelectorAll('[data-portal-layer]').forEach((layer) => {
       const strength = Number(layer.dataset.portalLayer) || 0.5;
       gsap.to(layer, {
-        x: x * 12 * strength,
-        y: y * 8 * strength,
-        duration: 0.6,
+        x: x * xAmplitude * strength,
+        y: y * yAmplitude * strength,
+        duration,
         overwrite: 'auto',
         ease: 'power2.out',
         force3D: true,
       });
     });
+  };
+
+  const movePortalLayers = (event) => {
+    if (!pointerParallaxEnabled) return;
+    const x = ((event.clientX / window.innerWidth) - 0.5) * 2;
+    const y = ((event.clientY / window.innerHeight) - 0.5) * 2;
+    applyPortalLayerMotion(x, y);
   };
 
   const resetPortalLayers = () => {
@@ -288,6 +312,11 @@ export const createCatalogPortalAnimation = (portal) => {
 
   portal.addEventListener('pointermove', movePortalLayers);
   portal.addEventListener('pointerleave', resetPortalLayers);
+  if (tiltParallaxEnabled) {
+    subscribeDeviceTilt(({ x, y }) => {
+      applyPortalLayerMotion(x, y, { xAmplitude: 8, yAmplitude: 6, duration: 0.72 });
+    });
+  }
 
   const enter = ({ category, source, trigger }) => new Promise((resolve) => {
     if (active || animating || !source) {

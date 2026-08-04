@@ -1,4 +1,10 @@
 import { gsap } from 'gsap';
+import {
+  deviceTiltNeedsPermission,
+  enableDeviceTilt,
+  subscribeDeviceTilt,
+  supportsDeviceTilt,
+} from './device-tilt.js';
 
 export const initHeroParallax = () => {
   const hero = document.querySelector('[data-hero]');
@@ -56,37 +62,27 @@ export const initHeroParallax = () => {
     return;
   }
 
-  const handleOrientation = (event) => {
-    const x = Math.max(-1, Math.min(1, (event.gamma || 0) / 35));
-    const y = Math.max(-1, Math.min(1, ((event.beta || 45) - 45) / 35));
+  let tiltReceived = false;
+  subscribeDeviceTilt(({ x, y }) => {
+    tiltReceived = true;
     moveLayers(x, y);
-  };
+  });
 
-  if (typeof DeviceOrientationEvent === 'undefined' || lowPowerDevice) {
+  if (!supportsDeviceTilt()) {
     startFallback();
     return;
   }
 
-  if (typeof DeviceOrientationEvent.requestPermission === 'function') {
+  if (deviceTiltNeedsPermission()) {
     permissionButton.hidden = false;
     permissionButton.addEventListener('click', async () => {
-      try {
-        const permission = await DeviceOrientationEvent.requestPermission();
-        if (permission === 'granted') {
-          window.addEventListener('deviceorientation', handleOrientation, { passive: true });
-          permissionButton.hidden = true;
-        } else {
-          permissionButton.hidden = true;
-          startFallback();
-        }
-      } catch {
-        permissionButton.hidden = true;
-        startFallback();
-      }
+      const enabled = await enableDeviceTilt();
+      permissionButton.hidden = true;
+      if (!enabled) startFallback();
     }, { once: true });
   } else {
-    window.addEventListener('deviceorientation', handleOrientation, { passive: true });
-    window.setTimeout(startFallback, 1200);
+    window.setTimeout(() => {
+      if (!tiltReceived) startFallback();
+    }, 1200);
   }
 };
-

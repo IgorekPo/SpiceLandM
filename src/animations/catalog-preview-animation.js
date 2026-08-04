@@ -1,6 +1,9 @@
 import { gsap } from 'gsap';
 
 const prefersReducedMotion = () => window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+const supportsCatalogAmbientMotion = () => window.matchMedia(
+  '(min-width: 1024px) and (hover: hover) and (pointer: fine)',
+).matches;
 
 const initSceneAmbientMotion = (scene) => {
   const tweens = [];
@@ -66,7 +69,7 @@ export const initCatalogPreviewAnimation = () => {
 
   const scenes = [...section.querySelectorAll('[data-category-scene]')];
   const contents = [...section.querySelectorAll('[data-catalog-content]')];
-  const ambientTweens = scenes.flatMap(initSceneAmbientMotion);
+  const ambientTweens = supportsCatalogAmbientMotion() ? scenes.flatMap(initSceneAmbientMotion) : [];
   let contentRevealed = false;
 
   const observer = new IntersectionObserver((entries) => {
@@ -84,7 +87,7 @@ export const initCatalogPreviewAnimation = () => {
 
   observer.observe(section);
 
-  if (!window.matchMedia('(min-width: 1024px) and (pointer: fine)').matches) return;
+  if (!supportsCatalogAmbientMotion()) return;
 
   scenes.forEach((scene) => {
     const layers = [...scene.querySelectorAll('[data-catalog-layer]')];
@@ -118,14 +121,14 @@ export const createCatalogPortalAnimation = (portal) => {
   const portalScenes = [...portal.querySelectorAll('[data-portal-category]')];
   const backButton = portal.querySelector('[data-catalog-back]');
   const portalAmbientTweens = [];
-  const pointerParallaxEnabled = window.matchMedia('(min-width: 1024px) and (pointer: fine)').matches;
+  const pointerParallaxEnabled = supportsCatalogAmbientMotion();
   let activeSource = null;
   let activeTrigger = null;
   let activePortalScene = null;
   let active = false;
   let animating = false;
 
-  if (!prefersReducedMotion()) {
+  if (!prefersReducedMotion() && pointerParallaxEnabled) {
     portalScenes.forEach((scene) => {
       const category = scene.dataset.portalCategory;
       const farMedia = scene.querySelector('.catalog-portal__layer--far .catalog-portal__media');

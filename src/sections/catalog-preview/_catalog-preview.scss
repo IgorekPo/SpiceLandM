@@ -16,6 +16,11 @@
     radial-gradient(circle at 50% 0, rgba($color-orange, 0.08), transparent 34%),
     #080706;
 
+  @media (max-width: 767px) {
+    height: 100svh;
+    max-height: 100svh;
+  }
+
   &__container {
     position: relative;
     display: flex;
@@ -70,8 +75,6 @@
   }
 
   &__layer {
-    will-change: transform;
-
     .catalog-preview__media {
       display: block;
       max-width: none;
@@ -582,6 +585,10 @@
       border-radius: 0;
     }
 
+    &__layer {
+      will-change: transform;
+    }
+
     &__scene--dry {
       border-left: 1px solid rgba($color-white, 0.18);
     }
@@ -722,8 +729,6 @@
   }
 
   &__layer {
-    will-change: transform;
-
     .catalog-portal__media {
       display: block;
       max-width: none;
@@ -873,6 +878,10 @@
   }
 
   @include from(1024px) {
+    &__layer {
+      will-change: transform;
+    }
+
     &__scene--liquid &__layer--middle .catalog-portal__media,
     &__scene--liquid &__layer--front .catalog-portal__media,
     &__scene--dry &__layer--middle .catalog-portal__media,
@@ -883,5 +892,14 @@
       object-fit: cover;
       object-position: center bottom;
     }
+  }
+}
+
+@media (hover: none), (pointer: coarse) {
+  .catalog-preview__water-shimmer,
+  .catalog-preview__smoke,
+  .catalog-portal__water,
+  .catalog-portal__smoke {
+    display: none;
   }
 }

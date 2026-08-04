@@ -22,15 +22,18 @@
   &__slide {
     position: relative;
     overflow: hidden;
-    width: 82%;
+    width: 44%;
     aspect-ratio: 16 / 9;
-    flex: 0 0 82%;
+    flex: 0 0 44%;
     padding: 0;
     background: rgba(0, 0, 0, 0.35);
     border: 1px solid rgba($color-white, 0.24);
     border-radius: 9px;
     cursor: zoom-in;
     scroll-snap-align: center;
+
+    &:first-child { margin-left: 28%; }
+    &:last-child { margin-right: 28%; }
 
     img {
       width: 100%;
@@ -41,15 +44,15 @@
 
   &__zoom {
     position: absolute;
-    right: 7px;
-    bottom: 7px;
+    right: 4px;
+    bottom: 4px;
     display: grid;
-    width: 28px;
-    height: 28px;
+    width: 20px;
+    height: 20px;
     place-items: center;
     background: rgba(0, 0, 0, 0.64);
     border-radius: 50%;
-    font-size: 1rem;
+    font-size: 0.72rem;
   }
 
   &__arrow {
@@ -57,19 +60,25 @@
     z-index: 3;
     top: 50%;
     display: grid;
-    width: 30px;
-    height: 38px;
+    width: 26px;
+    height: 34px;
     place-items: center;
     color: $color-white;
     background: rgba(0, 0, 0, 0.6);
     border: 1px solid rgba($color-white, 0.22);
     border-radius: 8px;
     cursor: pointer;
-    font-size: 1.3rem;
-    transform: translateY(-50%);
+    font-size: 1.15rem;
 
-    &--prev { left: 4px; }
-    &--next { right: 4px; }
+    &--prev {
+      left: 28%;
+      transform: translate(-50%, -50%);
+    }
+
+    &--next {
+      right: 28%;
+      transform: translate(50%, -50%);
+    }
   }
 
   &__viewport &__arrow {
@@ -80,7 +89,7 @@
     display: flex;
     justify-content: center;
     gap: 5px;
-    margin-top: 7px;
+    margin-top: 4px;
 
     span {
       width: 6px;

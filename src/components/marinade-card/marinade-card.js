@@ -124,7 +124,6 @@ export const initializeMarinadeCard = (card, product, { lightbox, requestExclusi
     activeTransition = expandCard(card, dropTimeline);
     await activeTransition;
     animating = false;
-    card.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'nearest' });
   };
 
   toggle.addEventListener('click', () => (expanded ? close() : open()));

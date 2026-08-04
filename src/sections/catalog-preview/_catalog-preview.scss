@@ -220,7 +220,7 @@
     max-width: 290px;
     margin-bottom: 16px;
     font-family: $font-display;
-    font-size: clamp(2.2rem, 11vw, 3.3rem);
+    font-size: clamp(1.8rem, 8.5vw, 2.55rem);
     font-weight: 600;
     letter-spacing: 0.035em;
     line-height: 0.95;
@@ -285,8 +285,9 @@
 
   &__button,
   &__general {
-    justify-content: space-between;
-    text-align: left;
+    justify-content: center;
+    gap: 10px;
+    text-align: center;
 
     svg {
       width: 21px;
@@ -354,7 +355,7 @@
 
     &__title {
       margin-bottom: 8px;
-      font-size: clamp(1.9rem, 10vw, 2.45rem);
+      font-size: clamp(1.65rem, 8vw, 2.05rem);
 
       &::after {
         margin-top: 8px;
@@ -464,7 +465,7 @@
       grid-area: title;
       max-width: none;
       margin-bottom: 10px;
-      font-size: clamp(2.35rem, 5.6vw, 3rem);
+      font-size: clamp(2rem, 4.6vw, 2.55rem);
 
       &::after {
         margin-top: 10px;
@@ -612,7 +613,7 @@
 
     &__title {
       max-width: 100%;
-      font-size: clamp(3rem, 4.3vw, 4.1rem);
+      font-size: clamp(2.4rem, 3.35vw, 3.2rem);
     }
 
     &__description {
@@ -684,7 +685,7 @@
     }
 
     &__title {
-      font-size: clamp(3.5rem, 4.3vw, 4.75rem);
+      font-size: clamp(2.75rem, 3.35vw, 3.55rem);
     }
 
     &__description {

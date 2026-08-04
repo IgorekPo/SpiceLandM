@@ -66,11 +66,17 @@ export const initBurgerMenu = () => {
   links.forEach((link) => {
     link.addEventListener('click', (event) => {
       const target = document.querySelector(link.getAttribute('href'));
+      const catalog = document.querySelector('[data-catalog-shell]');
+      const catalogActive = catalog?.classList.contains('catalog--active');
       close();
+
+      if (catalogActive) {
+        catalog.dispatchEvent(new CustomEvent('catalog:request-close', { bubbles: true }));
+      }
 
       if (target) {
         event.preventDefault();
-        window.setTimeout(() => target.scrollIntoView({ behavior: 'smooth' }), 260);
+        window.setTimeout(() => target.scrollIntoView({ behavior: 'smooth' }), catalogActive ? 900 : 260);
       }
     });
   });
@@ -79,4 +85,3 @@ export const initBurgerMenu = () => {
     if (event.key === 'Escape') close();
   });
 };
-

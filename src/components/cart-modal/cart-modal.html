@@ -1,0 +1,23 @@
+<div class="modal cart-modal" id="cart-modal" role="dialog" aria-modal="true" aria-labelledby="cart-modal-title" aria-hidden="true" data-cart-modal>
+  <div class="modal__backdrop" data-cart-close></div>
+  <div class="modal__dialog cart-modal__dialog" tabindex="-1" data-cart-dialog>
+    <button class="modal__close" type="button" aria-label="Закрити кошик" data-cart-close>
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+    </button>
+    <p class="modal__eyebrow">Ваше замовлення</p>
+    <h2 class="modal__title" id="cart-modal-title">Кошик</h2>
+    <p class="modal__description">Перевірте кількість упаковок і загальну вагу перед оформленням заявки.</p>
+
+    <p class="cart-modal__empty" data-cart-empty>Кошик поки порожній.</p>
+    <ul class="cart-modal__list" data-cart-list></ul>
+
+    <dl class="cart-modal__summary" data-cart-summary hidden>
+      <div><dt>Загальна кількість</dt><dd><strong data-cart-total-quantity>0</strong> шт.</dd></div>
+      <div><dt>Загальна вага</dt><dd><strong data-cart-total-weight>0</strong> кг</dd></div>
+    </dl>
+
+    <button class="cart-modal__request" type="button" data-cart-request disabled>Залишити заявку</button>
+    <p class="visually-hidden" aria-live="polite" data-cart-live></p>
+  </div>
+</div>

@@ -13,7 +13,7 @@ SpiceLandM/
 │   │   │   └── dishes/          # фото готових страв для галерей
 │   │   └── logos/
 │   ├── animations/        # GSAP-сценарии и общий контроллер device-tilt.js
-│   ├── components/        # независимые UI-компоненты
+│   ├── components/        # независимые UI-компоненты, включая корзину и модальные окна
 │   ├── data/              # единый источник данных товаров
 │   ├── js/                # точка входа JavaScript и store корзины
 │   ├── sections/          # HTML, SCSS и JS секций

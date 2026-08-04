@@ -1,0 +1,167 @@
+@use "../../styles/abstracts/variables" as *;
+
+.cart-modal {
+  &__dialog {
+    width: min(100%, 680px);
+  }
+
+  &__empty {
+    padding: 24px 12px;
+    color: rgba($color-dark, 0.64);
+    text-align: center;
+    background: rgba($color-dark, 0.04);
+    border: 1px dashed rgba($color-dark, 0.2);
+    border-radius: 12px;
+  }
+
+  &__list {
+    display: grid;
+    gap: 8px;
+  }
+
+  &__item {
+    display: grid;
+    align-items: center;
+    grid-template-columns: 42px minmax(0, 1fr) auto auto 28px;
+    gap: 8px;
+    padding: 8px;
+    background: rgba($color-dark, 0.045);
+    border: 1px solid rgba($color-dark, 0.14);
+    border-radius: 12px;
+  }
+
+  &__thumb {
+    width: 42px;
+    height: 42px;
+    object-fit: cover;
+    border-radius: 50%;
+  }
+
+  &__product {
+    display: grid;
+    min-width: 0;
+    gap: 2px;
+
+    strong {
+      overflow: hidden;
+      font-size: 0.72rem;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    small {
+      color: rgba($color-dark, 0.64);
+      font-size: 0.64rem;
+    }
+  }
+
+  &__quantity {
+    display: grid;
+    align-items: center;
+    grid-template-columns: 30px minmax(28px, auto) 30px;
+    overflow: hidden;
+    border: 1px solid rgba($color-dark, 0.2);
+    border-radius: 8px;
+
+    button,
+    output {
+      display: grid;
+      height: 30px;
+      place-items: center;
+    }
+
+    button {
+      cursor: pointer;
+      background: rgba($color-dark, 0.06);
+
+      &::before { display: none; }
+    }
+
+    output {
+      min-width: 30px;
+      font-size: 0.72rem;
+      font-weight: 700;
+    }
+  }
+
+  &__line-weight {
+    min-width: 52px;
+    font-size: 0.7rem;
+    text-align: right;
+  }
+
+  &__remove {
+    grid-column: 5;
+    width: 28px;
+    height: 28px;
+    color: rgba($color-dark, 0.62);
+    background: transparent;
+    cursor: pointer;
+    font-size: 1.1rem;
+
+    &::before { display: none; }
+  }
+
+  &__summary {
+    display: grid;
+    gap: 7px;
+    margin-top: 14px;
+    padding-top: 12px;
+    border-top: 1px solid rgba($color-dark, 0.16);
+
+    div {
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      font-size: 0.78rem;
+    }
+
+    dt { color: rgba($color-dark, 0.68); }
+    dd { text-align: right; }
+  }
+
+  &__request {
+    width: 100%;
+    min-height: 46px;
+    margin-top: 15px;
+    color: $color-white;
+    background: $color-success;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 0.82rem;
+    font-weight: 700;
+
+    &:disabled {
+      cursor: not-allowed;
+      opacity: 0.4;
+      background: $color-dark;
+    }
+  }
+
+  @media (max-width: 479px) {
+    &__item {
+      grid-template-columns: 38px minmax(0, 1fr) auto;
+    }
+
+    &__thumb {
+      width: 38px;
+      height: 38px;
+    }
+
+    &__quantity {
+      grid-column: 1 / 3;
+      width: max-content;
+      margin-top: 2px;
+    }
+
+    &__line-weight {
+      grid-column: 3;
+      grid-row: 2;
+    }
+
+    &__remove {
+      grid-column: 3;
+      grid-row: 1;
+    }
+  }
+}

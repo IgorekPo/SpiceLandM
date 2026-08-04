@@ -13,12 +13,6 @@ const modeMeta = {
   all: { title: 'Загальний каталог маринадів', opposite: 'Перейти до рідких маринадів', next: 'liquid' },
 };
 
-const getPageSize = () => {
-  if (window.innerWidth >= 1024) return 6;
-  if (window.innerWidth >= 768) return 4;
-  return Number.POSITIVE_INFINITY;
-};
-
 export const initializeCatalog = () => {
   const catalog = document.querySelector('[data-catalog-shell]');
   if (!catalog) return;
@@ -33,16 +27,10 @@ export const initializeCatalog = () => {
   const drawerOpen = catalog.querySelector('[data-catalog-drawer-open]');
   const drawerClosers = catalog.querySelectorAll('[data-catalog-drawer-close]');
   const opposite = catalog.querySelector('[data-catalog-opposite]');
-  const home = catalog.querySelector('[data-catalog-home]');
-  const previousPage = catalog.querySelector('[data-catalog-page-prev]');
-  const nextPage = catalog.querySelector('[data-catalog-page-next]');
-  const pageLabel = catalog.querySelector('[data-catalog-page-label]');
-  const pagination = catalog.querySelector('[data-catalog-pagination]');
   const cartCount = catalog.querySelector('[data-cart-count]');
   const lightbox = initializeImageLightbox();
 
   let mode = 'liquid';
-  let page = 0;
   let filteredProducts = [];
   let currentCardClose = null;
   let resizeFrame = 0;
@@ -68,20 +56,11 @@ export const initializeCatalog = () => {
     currentCardClose = newClose;
   };
 
-  const getVisibleProducts = () => {
-    const pageSize = getPageSize();
-    if (!Number.isFinite(pageSize)) return filteredProducts;
-    return filteredProducts.slice(page * pageSize, (page + 1) * pageSize);
-  };
-
   const render = () => {
     currentCardClose = null;
     grid.innerHTML = '';
-    const pageSize = getPageSize();
-    const pageCount = Number.isFinite(pageSize) ? Math.max(1, Math.ceil(filteredProducts.length / pageSize)) : 1;
-    page = Math.min(page, pageCount - 1);
 
-    getVisibleProducts().forEach((product) => {
+    filteredProducts.forEach((product) => {
       const card = createMarinadeCard(product);
       grid.append(card);
       initializeMarinadeCard(card, product, { lightbox, requestExclusiveOpen, announce });
@@ -89,10 +68,6 @@ export const initializeCatalog = () => {
 
     empty.hidden = filteredProducts.length > 0;
     count.textContent = `${filteredProducts.length} ${filteredProducts.length === 1 ? 'маринад' : 'маринадів'}`;
-    pageLabel.textContent = `${page + 1} / ${pageCount}`;
-    previousPage.disabled = page === 0;
-    nextPage.disabled = page >= pageCount - 1;
-    pagination.hidden = !Number.isFinite(pageSize) || pageCount <= 1;
   };
 
   const filterProducts = ({ types = [mode], colors = [], suitableFor = [] }) => {
@@ -115,7 +90,6 @@ export const initializeCatalog = () => {
 
   const setMode = (nextMode, { animate = false, updateBackground = false } = {}) => {
     mode = modeMeta[nextMode] ? nextMode : 'liquid';
-    page = 0;
     syncModeControls();
     filteredProducts = filterProducts({ types: [mode] });
     const renderMode = () => render();
@@ -130,6 +104,7 @@ export const initializeCatalog = () => {
     catalog.inert = false;
     catalog.setAttribute('aria-hidden', 'false');
     catalog.classList.add('catalog--active');
+    document.body.classList.add('page--catalog-open');
     gsap.fromTo(catalog.querySelector('.catalog__content'),
       { y: 22, autoAlpha: 0 },
       { y: 0, autoAlpha: 1, duration: 0.48, ease: 'power3.out' },
@@ -142,6 +117,7 @@ export const initializeCatalog = () => {
     catalog.classList.remove('catalog--active');
     catalog.setAttribute('aria-hidden', 'true');
     catalog.inert = true;
+    document.body.classList.remove('page--catalog-open');
   };
 
   const openDrawer = () => {
@@ -161,7 +137,6 @@ export const initializeCatalog = () => {
       await closeExpandedCard();
       const requestedMode = filters.types[0] || mode;
       mode = modeMeta[requestedMode] ? requestedMode : mode;
-      page = 0;
       syncModeControls();
       filteredProducts = filterProducts(filters);
       animateCatalogFilter(grid, render);
@@ -183,19 +158,8 @@ export const initializeCatalog = () => {
     closeDrawer();
   });
 
-  previousPage.addEventListener('click', async () => {
-    await closeExpandedCard();
-    page = Math.max(0, page - 1);
-    animateCatalogFilter(grid, render);
-  });
-  nextPage.addEventListener('click', async () => {
-    await closeExpandedCard();
-    page += 1;
-    animateCatalogFilter(grid, render);
-  });
   drawerOpen.addEventListener('click', openDrawer);
   drawerClosers.forEach((button) => button.addEventListener('click', closeDrawer));
-  home.addEventListener('click', () => catalog.dispatchEvent(new CustomEvent('catalog:request-close', { bubbles: true })));
   opposite.addEventListener('click', async () => {
     await closeExpandedCard();
     setMode(opposite.dataset.nextMode, { animate: true, updateBackground: true });
@@ -206,7 +170,6 @@ export const initializeCatalog = () => {
     if (resizeFrame) return;
     resizeFrame = window.requestAnimationFrame(() => {
       resizeFrame = 0;
-      page = 0;
       render();
     });
   }, { passive: true });

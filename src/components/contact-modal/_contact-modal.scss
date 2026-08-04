@@ -43,20 +43,20 @@
     @include focus-visible;
 
     position: absolute;
-    top: 12px;
-    right: 12px;
-    width: 36px;
-    height: 36px;
+    top: 4px;
+    right: 4px;
+    width: 54px;
+    height: 54px;
     cursor: pointer;
     background: transparent;
     border-radius: 50%;
 
     span {
       position: absolute;
-      top: 17px;
-      left: 9px;
-      width: 18px;
-      height: 1px;
+      top: 26px;
+      left: 13px;
+      width: 28px;
+      height: 2px;
       background: $color-dark;
 
       &:first-child {
@@ -67,6 +67,10 @@
         transform: rotate(-45deg);
       }
     }
+  }
+
+  & &__close {
+    position: absolute;
   }
 
   &__eyebrow {
@@ -80,7 +84,7 @@
 
   &__title {
     margin-bottom: 10px;
-    padding-right: 28px;
+    padding-right: 48px;
     font-family: $font-display;
     font-size: clamp(1.8rem, 8vw, 2.4rem);
     line-height: 1.08;

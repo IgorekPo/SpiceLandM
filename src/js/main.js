@@ -9,6 +9,7 @@ import { initHeader } from '../components/header/header.js';
 import { initBurgerMenu } from '../components/burger-menu/burger-menu.js';
 import { initContactModal } from '../components/contact-modal/contact-modal.js';
 import { initSuccessModal } from '../components/success-modal/success-modal.js';
+import { initCartModal } from '../components/cart-modal/cart-modal.js';
 import { initHero } from '../sections/hero/hero.js';
 import { initCatalogPreview } from '../sections/catalog-preview/catalog-preview.js';
 import { initializeCatalog } from '../sections/catalog/catalog.js';
@@ -22,7 +23,8 @@ initCatalogPreviewAnimation();
 initSectionScroll();
 
 const successModal = initSuccessModal();
-initContactModal({ onSuccess: successModal.open });
+const contactModal = initContactModal({ onSuccess: successModal.open });
+initCartModal({ openContact: contactModal?.open });
 
 playIntroAnimation().then(() => {
   initLogoAnimation();

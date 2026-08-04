@@ -41,7 +41,7 @@
     height: 100svh;
     overflow-x: hidden;
     overflow-y: auto;
-    padding: 12px 2px 20px;
+    padding: calc(#{$header-height-mobile} + 12px) 2px 20px;
     scrollbar-gutter: stable;
     scrollbar-color: rgba($color-orange, 0.55) transparent;
   }
@@ -144,7 +144,7 @@
 
     &__content {
       grid-column: 2;
-      padding: 12px 14px 18px;
+      padding: calc(#{$header-height-tablet} + 12px) 14px 18px;
     }
 
     &__header {
@@ -172,7 +172,7 @@
     grid-template-columns: clamp(210px, 17vw, 250px) minmax(0, 1fr);
 
     &__content {
-      padding: 14px clamp(12px, 2vw, 28px) 20px;
+      padding: calc(#{$header-height-desktop} + 14px) clamp(12px, 2vw, 28px) 20px;
     }
 
     &__header {
@@ -197,4 +197,16 @@
 
 body.page--lightbox-locked {
   overflow: hidden;
+}
+
+body.page--catalog-open .catalog-sidebar {
+  padding-top: calc(#{$header-height-mobile} + 14px);
+
+  @include from(768px) {
+    padding-top: calc(#{$header-height-tablet} + 14px);
+  }
+
+  @include from(1024px) {
+    padding-top: calc(#{$header-height-desktop} + 14px);
+  }
 }

@@ -1,4 +1,5 @@
 import { gsap } from 'gsap';
+import { getCartSummary } from '../../js/cart-store.js';
 
 const formatPhone = (value) => {
   const digits = value.replace(/\D/g, '').slice(0, 10);
@@ -105,7 +106,11 @@ export const initContactModal = ({ onSuccess }) => {
     form.dispatchEvent(
       new CustomEvent('spiceland:contact-submit', {
         bubbles: true,
-        detail: { phone: `+38 ${phoneInput.value}`, region: regionInput.value.trim() },
+        detail: {
+          phone: `+38 ${phoneInput.value}`,
+          region: regionInput.value.trim(),
+          cart: getCartSummary(),
+        },
       }),
     );
 
@@ -119,5 +124,6 @@ export const initContactModal = ({ onSuccess }) => {
   document.addEventListener('keydown', (event) => {
     if (event.key === 'Escape' && modal.classList.contains('modal--open')) close();
   });
-};
 
+  return { open, close };
+};

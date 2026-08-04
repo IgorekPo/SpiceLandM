@@ -173,6 +173,14 @@
   pointer-events: none;
 }
 
+.page--catalog-open .header {
+  z-index: 195;
+}
+
+.page--catalog-open .burger-menu {
+  z-index: 194;
+}
+
 .menu-toggle {
   @include focus-visible;
 

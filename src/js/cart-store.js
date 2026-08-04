@@ -15,6 +15,8 @@ const persist = () => {
   window.dispatchEvent(new CustomEvent('cart:updated', { detail: getCartSummary() }));
 };
 
+const getUnitWeight = (item) => Number.parseFloat(String(item.packageWeight).replace(',', '.')) || 0;
+
 export const addMarinadeToCart = (product) => {
   const existing = items.find((item) => (
     item.productId === product.id && item.packageWeight === product.packageWeight
@@ -37,8 +39,32 @@ export const addMarinadeToCart = (product) => {
   return getCartSummary();
 };
 
+export const setCartItemQuantity = (productId, packageWeight, quantity) => {
+  const item = items.find((cartItem) => (
+    cartItem.productId === productId && cartItem.packageWeight === packageWeight
+  ));
+  if (!item) return getCartSummary();
+
+  item.quantity = Math.max(1, Math.round(quantity));
+  persist();
+  return getCartSummary();
+};
+
+export const removeCartItem = (productId, packageWeight) => {
+  items = items.filter((item) => !(
+    item.productId === productId && item.packageWeight === packageWeight
+  ));
+  persist();
+  return getCartSummary();
+};
+
 export const getCartSummary = () => ({
-  items: [...items],
+  items: items.map((item) => ({
+    ...item,
+    unitWeight: getUnitWeight(item),
+    totalWeight: getUnitWeight(item) * item.quantity,
+  })),
   quantity: items.reduce((total, item) => total + item.quantity, 0),
   subtotal: items.reduce((total, item) => total + (item.unitPrice * item.quantity), 0),
+  totalWeight: items.reduce((total, item) => total + (getUnitWeight(item) * item.quantity), 0),
 });

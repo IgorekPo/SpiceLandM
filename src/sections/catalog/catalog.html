@@ -6,7 +6,6 @@
       <button class="catalog-sidebar__drawer-close" type="button" data-catalog-drawer-close aria-label="Закрити фільтр">×</button>
     </div>
     <nav class="catalog-sidebar__navigation" aria-label="Навігація каталогу">
-      <button type="button" data-catalog-home>← Головна</button>
       <button type="button" data-catalog-opposite></button>
     </nav>
     <form class="catalog-filter" data-catalog-filter>
@@ -44,20 +43,15 @@
         <h1 class="catalog__title" data-catalog-title>Каталог маринадів</h1>
         <p class="catalog__count" data-catalog-count></p>
       </div>
-      <div class="catalog__cart" aria-label="Товарів у кошику">
+      <button class="catalog__cart" type="button" aria-label="Відкрити кошик" data-cart-open>
         <span aria-hidden="true">🛒</span>
         <strong data-cart-count>0</strong>
-      </div>
+      </button>
     </header>
 
     <div class="catalog__grid" data-catalog-grid aria-live="polite"></div>
     <p class="catalog__empty" data-catalog-empty hidden>За вибраними параметрами маринадів не знайдено.</p>
 
-    <nav class="catalog-pagination" aria-label="Сторінки каталогу" data-catalog-pagination>
-      <button type="button" data-catalog-page-prev aria-label="Попередня група карток">←</button>
-      <span data-catalog-page-label>1 / 1</span>
-      <button type="button" data-catalog-page-next aria-label="Наступна група карток">→</button>
-    </nav>
   </div>
 
   <div class="catalog__live visually-hidden" aria-live="polite" data-catalog-live></div>
